@@ -31,6 +31,7 @@ py -3.12 -m venv .venv
 .\.venv\Scripts\Activate.ps1
 python -m pip install -U pip
 pip install -r requirements.txt
+pip install -e .          # 把 rf_agent 包装进环境，streamlit/pytest 才能 import
 copy .env.example .env    # 然后填入自己的 DASHSCOPE_API_KEY（不入库）
 pytest -q                 # 合同测试必须全绿
 streamlit run app.py      # Day 1 验收门槛
