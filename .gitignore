@@ -1,0 +1,25 @@
+# 密钥与环境
+.env
+.env.*
+!.env.example
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+
+# 数据（保留目录占位，不入库大文件）
+data/knowledge/*
+data/simulated/*
+data/incoming/*
+!data/**/.gitkeep
+data/*.db
+
+# IDE / 系统
+.idea/
+.vscode/
+Thumbs.db
+.DS_Store

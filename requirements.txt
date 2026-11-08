@@ -1,0 +1,13 @@
+# 手册第 81-82 行安装清单
+pydantic
+numpy
+pandas
+scipy
+scikit-learn
+streamlit
+faiss-cpu
+pymupdf
+python-dotenv
+pytest
+ruff
+dashscope

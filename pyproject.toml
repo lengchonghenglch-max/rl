@@ -1,0 +1,13 @@
+[project]
+name = "rf-agent"
+version = "0.1.0"
+description = "RF AI Agent MVP（三人团队，14 天手册）"
+requires-python = ">=3.12"
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 100
+src = ["src", "tests"]
