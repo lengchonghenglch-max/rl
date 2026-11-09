@@ -9,6 +9,7 @@
 运行（项目根目录）：
     .venv/Scripts/python.exe scripts/run_workflow.py            # 有 key 走真 LLM
     .venv/Scripts/python.exe scripts/run_workflow.py --mock     # 强制 Mock，不花钱
+    .venv/Scripts/python.exe scripts/run_workflow.py "设计一个 5.8 GHz 低通滤波器" --mock
 """
 
 from __future__ import annotations
@@ -27,7 +28,11 @@ from rf_agent import storage
 from rf_agent.agent import approve, create_project, run_until_stopped
 from rf_agent.contracts import Phase
 
-RAW_REQUEST = "在 2.4 GHz 附近做一个带通滤波器，通带插损小于 2 dB"
+DEFAULT_REQUEST = "在 2.4 GHz 附近做一个带通滤波器，通带插损小于 2 dB"
+# 第一个非 -- 开头的命令行参数作为需求文本，例如：
+#   python scripts/run_workflow.py "设计一个 5.8 GHz 的低通滤波器" --mock
+_args = [a for a in sys.argv[1:] if not a.startswith("--")]
+RAW_REQUEST = _args[0] if _args else DEFAULT_REQUEST
 
 
 def show(state) -> None:
