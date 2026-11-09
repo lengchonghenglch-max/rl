@@ -11,6 +11,9 @@ __pycache__/
 .pytest_cache/
 .ruff_cache/
 
+# 日志（本地运行产物，不入库）
+logs/
+
 # 数据（保留目录占位，不入库大文件）
 data/knowledge/*
 data/simulated/*

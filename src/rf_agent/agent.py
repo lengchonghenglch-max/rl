@@ -7,7 +7,7 @@
 
 from __future__ import annotations
 
-from rf_agent.contracts import DesignSpec, Phase, WorkflowState
+from rf_agent.contracts import Phase, WorkflowState
 
 # 状态机节点顺序（手册 Qoder 提示词 Agent/Streamlit 一节）：
 # parse -> retrieve -> confirm -> sample -> submit -> ingest -> fit -> acquire -> report

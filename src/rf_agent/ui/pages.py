@@ -12,6 +12,7 @@
 
 from __future__ import annotations
 
+
 def render_header() -> None:
     """TODO(C)：标题、当前 phase、预算余量、Mock 模式徽标。"""
     raise NotImplementedError("成员 C 待实现")

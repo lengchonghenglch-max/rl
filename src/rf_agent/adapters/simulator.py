@@ -8,6 +8,7 @@ from __future__ import annotations
 
 from rf_agent.contracts import DataLabel, SimulationResult, SimulationTask
 
+
 def submit(task: SimulationTask) -> str:
     """提交任务，返回 run_id。幂等：同一 task_id 重复提交不产生新任务。"""
     raise NotImplementedError("成员 C 待实现")
@@ -29,10 +30,7 @@ def mock_submit(task: SimulationTask) -> SimulationResult:
     return SimulationResult(
         task_id=task.task_id,
         status=TaskStatus.SUCCESS,
-        metrics=[
-            MetricValue(name=m, value=0.0, unit="dB")
-            for m in task.requested_metrics
-        ],
+        metrics=[MetricValue(name=m, value=0.0, unit="dB") for m in task.requested_metrics],
         source=DataLabel.SIMULATED,
         simulator_version="mock-0.1",
         completed_at=utc_now(),
