@@ -51,6 +51,56 @@ def _call_dashscope(model: str, messages: list[dict]) -> tuple[str, str]:
     return content, resp.request_id
 
 
+def _call_openai_compatible(base_url: str, model: str, messages: list[dict]) -> tuple[str, str]:
+    """套餐专用 key（如 sk-sp- 前缀）走 OpenAI 兼容服务地址。
+
+    base_url 形如 https://xxx.aliyuncs.com/v1，实际请求 {base_url}/chat/completions。
+    """
+    import requests
+
+    resp = requests.post(
+        f"{base_url.rstrip('/')}/chat/completions",
+        headers={"Authorization": f"Bearer {os.environ['DASHSCOPE_API_KEY']}"},
+        json={
+            "model": model,
+            "messages": messages,
+            "response_format": {"type": "json_object"},
+        },
+        timeout=120,
+    )
+    if resp.status_code != 200:
+        raise LLMError(f"OpenAI 兼容接口返回 {resp.status_code}: {resp.text[:300]}")
+    data = resp.json()
+    content = data["choices"][0]["message"]["content"]
+    return content, data.get("id", "")
+
+
+def _call_anthropic_compatible(base_url: str, model: str, messages: list[dict]) -> tuple[str, str]:
+    """Token Plan 套餐（sk-sp- key）走 Anthropic 兼容接口，如 .../apps/anthropic。
+
+    与 OpenAI 风格不同：system 单独成字段、max_tokens 必填、
+    回复在 content 块数组里（可能夹带 thinking 块，只取 text 块）。
+    """
+    import requests
+
+    system = "\n\n".join(m["content"] for m in messages if m["role"] == "system")
+    conv = [m for m in messages if m["role"] != "system"]
+    resp = requests.post(
+        f"{base_url.rstrip('/')}/v1/messages",
+        headers={
+            "x-api-key": os.environ["DASHSCOPE_API_KEY"],
+            "anthropic-version": "2023-06-01",
+        },
+        json={"model": model, "max_tokens": 8192, "system": system, "messages": conv},
+        timeout=120,
+    )
+    if resp.status_code != 200:
+        raise LLMError(f"Anthropic 兼容接口返回 {resp.status_code}: {resp.text[:300]}")
+    data = resp.json()
+    content = "".join(b.get("text", "") for b in data.get("content", []) if b.get("type") == "text")
+    return content, data.get("id", "")
+
+
 def chat_json(system_prompt: str, user_message: str, schema: dict | None = None) -> dict:
     """请求 LLM 并返回 JSON dict。
 
@@ -65,6 +115,7 @@ def chat_json(system_prompt: str, user_message: str, schema: dict | None = None)
         )
 
     model = os.environ.get("DASHSCOPE_MODEL", DEFAULT_MODEL)
+    base_url = os.environ.get("DASHSCOPE_BASE_URL", "")
     if schema is not None:
         system_prompt = (
             f"{system_prompt}\n\n输出必须是符合以下 JSON Schema 的单个 JSON 对象：\n"
@@ -77,7 +128,12 @@ def chat_json(system_prompt: str, user_message: str, schema: dict | None = None)
 
     last_error: Exception | None = None
     for attempt in range(1, MAX_PARSE_RETRIES + 2):
-        content, request_id = _call_dashscope(model, messages)
+        if base_url.rstrip("/").endswith("/apps/anthropic"):
+            content, request_id = _call_anthropic_compatible(base_url, model, messages)
+        elif base_url:
+            content, request_id = _call_openai_compatible(base_url, model, messages)
+        else:
+            content, request_id = _call_dashscope(model, messages)
         try:
             data = json.loads(content)
         except json.JSONDecodeError as exc:

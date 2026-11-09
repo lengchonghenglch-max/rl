@@ -29,8 +29,21 @@ SYSTEM_PROMPT = (
     "你是射频设计需求解析器。把用户需求抽取为 JSON："
     "topology、frequency_band_hz（Hz）、parameters（name/unit/lower/upper/nominal）、"
     "metrics（name/operator/target/band_hz）、needs_confirmation（缺失或含糊的字段列表）。"
-    "不确定的字段必须放进 needs_confirmation，不许编造。"
+    "operator 只能取 <=、>=、==、in_band 四个值之一，禁止使用 < 或 >。"
+    "parameters 至少给一个可调几何参数：用户没说时按该拓扑的典型参数提出建议范围，"
+    "并在 needs_confirmation 里写明这些参数是建议值、需工程师确认。"
+    "其他不确定的字段也必须放进 needs_confirmation，不许编造。"
 )
+
+# 合同只允许 <=/>=/==/in_band；LLM 偶尔写成严格不等号，规范化为闭区间（工程上容差远大于等号差别）
+OPERATOR_ALIASES = {"<": "<=", ">": ">=", "=": "==", "≤": "<=", "≥": ">="}
+
+
+def normalize_operators(data: dict) -> None:
+    for metric in data.get("metrics", []):
+        op = metric.get("operator")
+        if op in OPERATOR_ALIASES:
+            metric["operator"] = OPERATOR_ALIASES[op]
 
 
 def main() -> int:
@@ -48,6 +61,10 @@ def main() -> int:
     meta = data.pop("_meta", None)
     data.pop("_mock", None)
     data.pop("note", None)
+    # spec_id/raw_request/时间戳由脚本统一赋值，模型即使自作主张填了也忽略
+    for field in ("spec_id", "raw_request", "created_at", "spec_version"):
+        data.pop(field, None)
+    normalize_operators(data)
     spec = DesignSpec(
         spec_id=f"spec-{uuid.uuid4().hex[:8]}",
         raw_request=raw_request,
