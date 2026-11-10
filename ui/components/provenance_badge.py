@@ -9,6 +9,8 @@ LABELS = {
 
 def provenance_badge(data_kind: str) -> None:
     icon, label = LABELS.get(data_kind, ("help", f"UNKNOWN · {data_kind}"))
-    with ui.row().classes("items-center gap-2 px-3 py-1 border border-current rounded text-sm font-medium"):
+    with ui.row().classes(
+        "items-center gap-2 px-3 py-1 border border-current rounded text-sm font-medium"
+    ):
         ui.icon(icon).classes("text-base")
         ui.label(label)

@@ -14,10 +14,18 @@ def approval_panel(run: dict, on_change) -> None:
         for parameter in spec["parameters"]:
             with ui.column().classes("gap-0 border-l-2 border-primary pl-3"):
                 ui.label(parameter["name"]).classes("font-medium")
-                ui.label(f"{parameter['lower']}–{parameter['upper']} {parameter['unit']}").classes("text-sm")
+                ui.label(f"{parameter['lower']}–{parameter['upper']} {parameter['unit']}").classes(
+                    "text-sm"
+                )
     for metric in spec["metrics"]:
-        ui.label(f"约束：{metric['name']} {metric['operator']} {metric['target']} · 频段 {metric['band_hz']}").classes("text-sm")
-    reason = ui.input("审批 / 退回理由", placeholder="填写工程判断依据").props("outlined dense").classes("w-full")
+        ui.label(
+            f"约束：{metric['name']} {metric['operator']} {metric['target']} · 频段 {metric['band_hz']}"
+        ).classes("text-sm")
+    reason = (
+        ui.input("审批 / 退回理由", placeholder="填写工程判断依据")
+        .props("outlined dense")
+        .classes("w-full")
+    )
 
     def submit(action: str) -> None:
         if not reason.value or len(reason.value.strip()) < 3:
@@ -27,5 +35,9 @@ def approval_panel(run: dict, on_change) -> None:
         on_change()
 
     with ui.row():
-        ui.button("批准并生成采样", icon="check", on_click=lambda: submit("approve")).props("color=positive")
-        ui.button("退回", icon="undo", on_click=lambda: submit("reject")).props("color=negative outline")
+        ui.button("批准并生成采样", icon="check", on_click=lambda: submit("approve")).props(
+            "color=positive"
+        )
+        ui.button("退回", icon="undo", on_click=lambda: submit("reject")).props(
+            "color=negative outline"
+        )

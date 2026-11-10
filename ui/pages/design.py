@@ -8,7 +8,11 @@ from ui.components.provenance_badge import provenance_badge
 
 def render() -> None:
     ui.label("需求设计").classes("text-h5")
-    request = ui.textarea("射频设计需求", placeholder="描述拓扑、目标频段与性能要求…").props("outlined autogrow").classes("w-full")
+    request = (
+        ui.textarea("射频设计需求", placeholder="描述拓扑、目标频段与性能要求…")
+        .props("outlined autogrow")
+        .classes("w-full")
+    )
     result = ui.column().classes("w-full")
 
     def create() -> None:
@@ -20,7 +24,9 @@ def render() -> None:
         result.clear()
         with result:
             provenance_badge("simulated")
-            ui.label(f"Run {run['run_id']} · DesignSpec 已通过 contracts.py 校验").classes("text-sm")
+            ui.label(f"Run {run['run_id']} · DesignSpec 已通过 contracts.py 校验").classes(
+                "text-sm"
+            )
             ui.json_editor({"content": {"json": run["spec"]}, "display": "tree"}).classes("w-full")
             ui.label("检索证据")
             for item in run["evidence"]:

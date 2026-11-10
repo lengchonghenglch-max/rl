@@ -27,7 +27,9 @@ def render() -> None:
         with history:
             for run in runs:
                 with ui.row().classes("w-full items-center border-b py-2"):
-                    ui.button(run["run_id"], on_click=lambda item=run: select(item["run_id"])).props("flat")
+                    ui.button(
+                        run["run_id"], on_click=lambda item=run: select(item["run_id"])
+                    ).props("flat")
                     ui.label(f"{run['status']} · {run['created_at']}").classes("text-sm")
                     provenance_badge(run["data_kind"])
 
@@ -37,4 +39,3 @@ def render() -> None:
 
     refresh()
     ui.timer(2.5, refresh)
-

@@ -13,5 +13,7 @@ def render() -> None:
         return
     run = workflow.snapshot(state.state.run_id)
     provenance_badge("simulated")
-    ui.label(f"约束过滤前 {len(run['sample_batch']['candidates']) if run['sample_batch'] else 24} 点 · 过滤后 {len(run['sample_batch']['candidates']) if run['sample_batch'] else 0} 点")
+    ui.label(
+        f"约束过滤前 {len(run['sample_batch']['candidates']) if run['sample_batch'] else 24} 点 · 过滤后 {len(run['sample_batch']['candidates']) if run['sample_batch'] else 0} 点"
+    )
     parameter_space(run)

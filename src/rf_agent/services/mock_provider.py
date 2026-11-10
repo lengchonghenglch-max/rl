@@ -32,7 +32,9 @@ def design_spec(request: str) -> DesignSpec:
             ParameterSpec(name="gap_um", unit="um", lower=5, upper=40, nominal=18),
         ],
         metrics=[
-            MetricSpec(name="insertion_loss_db", operator="<=", target=2.0, band_hz=(2.35e9, 2.45e9)),
+            MetricSpec(
+                name="insertion_loss_db", operator="<=", target=2.0, band_hz=(2.35e9, 2.45e9)
+            ),
             MetricSpec(name="s11_db", operator="<=", target=-10.0, band_hz=(2.35e9, 2.45e9)),
         ],
         needs_confirmation=["基板材料与厚度未确认", "端口定义未确认"],
@@ -42,14 +44,26 @@ def design_spec(request: str) -> DesignSpec:
 
 def evidence() -> list[Evidence]:
     return [
-        Evidence(document_id="mock-doc-001", page=12, chunk_id="mock-doc-001#p12#c3",
-                 quote="[MOCK] 带通滤波器的线宽与耦合间距可作为初始调节参数。",
-                 score=0.91, source_type=SourceType.KNOWLEDGE_SUGGESTION,
-                 needs_confirmation=True, confidence=0.5),
-        Evidence(document_id="mock-doc-002", page=7, chunk_id="mock-doc-002#p7#c1",
-                 quote="[MOCK] 基板材料与厚度应由工程师确认。",
-                 score=0.85, source_type=SourceType.KNOWLEDGE_SUGGESTION,
-                 needs_confirmation=True, confidence=0.5),
+        Evidence(
+            document_id="mock-doc-001",
+            page=12,
+            chunk_id="mock-doc-001#p12#c3",
+            quote="[MOCK] 带通滤波器的线宽与耦合间距可作为初始调节参数。",
+            score=0.91,
+            source_type=SourceType.KNOWLEDGE_SUGGESTION,
+            needs_confirmation=True,
+            confidence=0.5,
+        ),
+        Evidence(
+            document_id="mock-doc-002",
+            page=7,
+            chunk_id="mock-doc-002#p7#c1",
+            quote="[MOCK] 基板材料与厚度应由工程师确认。",
+            score=0.85,
+            source_type=SourceType.KNOWLEDGE_SUGGESTION,
+            needs_confirmation=True,
+            confidence=0.5,
+        ),
     ]
 
 
@@ -58,11 +72,24 @@ def sample(spec: DesignSpec, n: int = 24) -> SampleBatch:
     candidates = []
     for index in range(n):
         normalized = {p.name: (index + rng.random()) / n for p in spec.parameters}
-        physical = {p.name: p.lower + normalized[p.name] * (p.upper - p.lower) for p in spec.parameters}
-        candidates.append(Candidate(candidate_id=f"mock-{index + 1:03}", x_physical=physical,
-                                    x_normalized=normalized, sampler=SamplerKind.LHS))
-    return SampleBatch(batch_id=f"batch-{uuid.uuid4().hex[:8]}", design_spec_id=spec.spec_id,
-                       seed=SEED, sampler=SamplerKind.LHS, candidates=candidates)
+        physical = {
+            p.name: p.lower + normalized[p.name] * (p.upper - p.lower) for p in spec.parameters
+        }
+        candidates.append(
+            Candidate(
+                candidate_id=f"mock-{index + 1:03}",
+                x_physical=physical,
+                x_normalized=normalized,
+                sampler=SamplerKind.LHS,
+            )
+        )
+    return SampleBatch(
+        batch_id=f"batch-{uuid.uuid4().hex[:8]}",
+        design_spec_id=spec.spec_id,
+        seed=SEED,
+        sampler=SamplerKind.LHS,
+        candidates=candidates,
+    )
 
 
 def artifacts() -> tuple[str, bytes, str]:

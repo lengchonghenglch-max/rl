@@ -13,8 +13,16 @@ def render() -> None:
     run = workflow.snapshot(state.state.run_id)
     provenance_badge(run["data_kind"])
     ui.label(f"报告来自持久化快照 · run_id={run['run_id']}").classes("text-sm")
-    for kind, label, icon in (("md", "Markdown 报告", "description"), ("csv", "指标清单 CSV", "table_view")):
+    for kind, label, icon in (
+        ("md", "Markdown 报告", "description"),
+        ("csv", "指标清单 CSV", "table_view"),
+    ):
         content = workflow.report(run["run_id"], kind)
-        ui.button(label, icon=icon, on_click=lambda data=content, ext=kind: ui.download(
-            data, filename=f"{run['run_id']}_report.{ext}")).props("outline")
+        ui.button(
+            label,
+            icon=icon,
+            on_click=lambda data=content, ext=kind: ui.download(
+                data, filename=f"{run['run_id']}_report.{ext}"
+            ),
+        ).props("outline")
     ui.markdown(workflow.report(run["run_id"], "md").decode()).classes("w-full")
