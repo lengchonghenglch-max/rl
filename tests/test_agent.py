@@ -2,7 +2,7 @@
 
 import pytest
 
-from rf_agent import agent, storage
+from rf_agent import agent, storage, tasks
 from rf_agent.adapters import llm
 from rf_agent.contracts import DesignSpec, Phase
 
@@ -10,6 +10,12 @@ from rf_agent.contracts import DesignSpec, Phase
 @pytest.fixture
 def db(tmp_path):
     return tmp_path / "test.db"
+
+
+@pytest.fixture(autouse=True)
+def export_dir(tmp_path, monkeypatch):
+    """任务单导出目录指向临时目录，测试不污染仓库。"""
+    monkeypatch.setattr(tasks, "EXPORT_DIR", tmp_path / "incoming")
 
 
 @pytest.fixture
@@ -35,12 +41,12 @@ def test_flow_stops_at_confirm_gate(db, offline):
     assert len(state.pending_confirmations) >= 2
 
 
-def test_approve_then_sample_then_stop_at_submit(db, offline):
+def test_approve_then_sample_then_submit_stop_at_ingest(db, offline):
     _run_to_confirm(db)
     state = agent.approve("p1", approver="测试工程师", db_path=db)
     assert state.pending_confirmations == []
     state = agent.run_until_stopped(state, db)
-    assert state.phase == Phase.SUBMIT  # Day 6 才接入，必须停住而不是跳过
+    assert state.phase == Phase.INGEST  # Day 8 才接入，必须停住而不是跳过
     batch = state.latest_sample_batch
     assert batch is not None and len(batch.candidates) == 5
     assert all(c.feasible for c in batch.candidates)
@@ -51,7 +57,7 @@ def test_restart_recovery_from_sqlite(db, offline):
     agent.approve("p1", db_path=db)
     agent.run_until_stopped(storage.load_state("p1", db), db)
     restored = storage.load_state("p1", db)  # 模拟进程重启
-    assert restored.phase == Phase.SUBMIT
+    assert restored.phase == Phase.INGEST
     assert restored.latest_sample_batch is not None
 
 
@@ -65,6 +71,7 @@ def test_audit_events_recorded(db, offline):
     assert "停在人工确认" in messages
     assert "批准" in messages
     assert "sample 完成" in messages
+    assert "submit 完成" in messages
 
 
 def test_no_pending_skips_confirm(db, offline, monkeypatch):
@@ -82,7 +89,7 @@ def test_no_pending_skips_confirm(db, offline, monkeypatch):
     monkeypatch.setattr(agent, "mock_retrieve", lambda state: [])
     state = agent.create_project("p2", RAW, db)
     state = agent.run_until_stopped(state, db)
-    assert state.phase == Phase.SUBMIT
+    assert state.phase == Phase.INGEST
 
 
 def test_node_error_goes_to_failed_terminal(db, offline, monkeypatch):
