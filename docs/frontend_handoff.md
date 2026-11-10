@@ -3,6 +3,26 @@
 更新日期：2026-11-10  
 范围：根目录 `ui/` 的 NiceGUI 前端及其 FastAPI / 服务层接入情况。
 
+## 更新记录 2026-11-10（Day 7 真实闭环接入，成员 C）
+
+- `WorkflowService` 已改为驱动真实状态机：create_run -> `agent.create_project` +
+  `run_until_stopped`（parse 走 LLM adapter，无 key 自动 mock）；approve -> `agent.approve`
+  + 继续推进（mock sample -> submit 导出 CSV/JSON 任务单并入库 -> 停在 INGEST）；
+  reject -> 记审计事件并转 FAILED 终态。
+- **删除了平行的 `ui_runs` 状态表**：UI 快照统一从 `storage.py` 的
+  `workflow_state`（WorkflowState）构建，交接文档此前"避免两套状态来源"的隐患已解决。
+  `ui_artifacts`（上传文件）与 `ui_approval_log`（审批理由 + 幂等键）保留为 UI 侧补充记录。
+- 修复：`ingest` 此前恒返回 `simulated`，现如实回显上传者声明的标签。
+- UI 守卫：参数少于 2 个时散点图退化为用户表（真实 LLM 解析的参数名/个数不可预设）；
+  采样页去掉写死的 24 点文案；设计页解析失败弹 notify 而非白屏。
+- 报告扩展：含设计规格、审批、采样批次与任务数、Artifacts、审计事件全链路。
+- 验证：`pytest` 45 passed / 6 skipped；ruff check/format 通过；
+  `demo_frontend.py` 离线全链路通过；8001 端口实测 7 个页面 + `/docs` 全 200，
+  HTTP 创建 run + 审批链路 200。**浏览器内点击流未实测**，接手者请人工过一遍。
+- 证据展示仍用确定性 `mock_retrieve` 重建（WorkflowState 无 evidence 字段，
+  contracts 为共享契约未擅动）；A 的真实 RAG 接入后再改为从状态读取。
+- 注意：端口 8000 上可能还挂着改造前的旧服务进程，重启前请先杀掉，否则浏览器看到的仍是旧代码。
+
 ## 项目目标与约束
 
 - 前端使用 NiceGUI 4.0.0，Plotly 用于交互式图表；Python 要求 3.12。
@@ -38,7 +58,7 @@
 
 ### 真实领域流程
 
-- **需求解析**：当前服务使用 Mock 设计模板。接入 `agent.py` / LLM 解析，并把真实解析模式、错误和待确认项呈现在 UI。仓库已有 LLM adapter，但尚未确认它已接入这套根目录 UI 服务流程。
+- **需求解析**：~~当前服务使用 Mock 设计模板~~ 已由 Day 7 接入 `agent.py` / LLM 解析（见上方更新记录）。剩余：把解析模式（llm/mock）与错误详情更丰富地呈现在 UI。
 - **知识检索**：当前证据是 Mock 文本。接入 `rag.py`，显示真实来源、页码、chunk、引用和检索分数，并保留可追溯性。
 - **采样**：当前候选点由 Mock provider 生成。接入 `space.py` 的真实采样算法，并核对参数范围、约束过滤及 UI 图表结果。
 - **仿真提交与轮询**：当前 `src/rf_agent/adapters/simulator.py` 的真实 `submit` / `poll` 尚未实现。需要接入目标仿真器（如 UltraEM）、提交任务、记录任务状态、轮询/恢复和错误处理。
@@ -48,7 +68,7 @@
 
 ### 服务可靠性与体验
 
-- 当前前端及 API 任务服务的 SQLite 表为 UI 工作流快照和 artifact 表；确认是否应统一写入项目现有 `storage.py` / `WorkflowState`，避免两套状态来源。
+- ~~两套状态来源~~ Day 7 已统一：工作流状态唯一来自 `storage.py` / `WorkflowState`，UI 侧仅保留 artifact 与审批日志表。
 - 审批已具备幂等键处理，但要验证重复请求、不同 run 的键冲突和状态迁移一致性。
 - 上传限制 5 MB，允许 CSV/JSON；需考虑行数限制、JSON 类型校验、恶意/超大输入、文件名和下载响应头处理。
 - 长任务尚未作为后台任务执行，也没有进程重启后的真实仿真恢复与轮询。完成仿真接入时应采用持久任务状态，不要让 ASGI 请求同步等待长计算。
