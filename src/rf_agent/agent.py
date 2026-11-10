@@ -1,7 +1,7 @@
 """成员 C 负责：Agent 工作流状态机与工具调度（手册模块 3，Day 3 版）。
 
 方案 A：纯 Python 站点表 + SQLite 快照存档（storage.py）。
-当前打通 parse -> retrieve -> confirm -> sample 四站；submit 及之后 Day 6 接入。
+当前打通 parse -> retrieve -> confirm -> sample -> submit 五站；ingest 及之后 Day 8 接入。
 
 规则：
 - 每个节点是普通函数：进一个 WorkflowState，出一个新状态；每次跳转都存档 + 记流水账。
@@ -20,6 +20,7 @@ from rf_agent.adapters.llm import MissingAPIKeyError, chat_json, mock_chat_json
 from rf_agent.contracts import DesignSpec, Phase, WorkflowState
 from rf_agent.logging_setup import get_logger
 from rf_agent.mocks import mock_retrieve, mock_sample
+from rf_agent.tasks import export_tasks
 
 logger = get_logger("agent")
 
@@ -151,10 +152,27 @@ def node_sample(state: WorkflowState, db_path: Path) -> WorkflowState:
     return state
 
 
+def node_submit(state: WorkflowState, db_path: Path) -> WorkflowState:
+    """Day 6：把采样批次导出成任务单（CSV+JSON）并幂等入库，然后开往 INGEST。"""
+    batch = state.latest_sample_batch
+    if batch is None or state.design_spec is None:
+        raise ValueError("submit 需要先有采样批次与设计规格")
+    tasks, n_new, csv_path, json_path = export_tasks(batch, state.design_spec, db_path)
+    storage.log_event(
+        state.project_id,
+        Phase.SUBMIT,
+        f"submit 完成：导出 {len(tasks)} 个任务（新增 {n_new}），文件 {csv_path} / {json_path}",
+        db_path,
+    )
+    state.transition(Phase.INGEST)
+    return state
+
+
 NODES = {
     Phase.RETRIEVE: node_retrieve,
     Phase.CONFIRM: node_confirm,
     Phase.SAMPLE: node_sample,
+    Phase.SUBMIT: node_submit,
 }
 
 
@@ -162,7 +180,7 @@ def run_step(state: WorkflowState, db_path: Path = storage.DEFAULT_DB) -> Workfl
     """推进一站。节点抛错 -> 记 errors、转 FAILED 终态、存档。"""
     handler = NODES.get(state.phase)
     if handler is None:
-        msg = f"phase={state.phase.value} 暂无实现（submit 之后 Day 6 接入）或已是终态"
+        msg = f"phase={state.phase.value} 暂无实现（ingest 之后 Day 8 接入）或已是终态"
         storage.log_event(state.project_id, state.phase, msg, db_path)
         logger.info("%s project=%s", msg, state.project_id)
         return state

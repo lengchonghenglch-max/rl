@@ -43,6 +43,14 @@ def init_db(db_path: Path = DEFAULT_DB) -> None:
               message    TEXT NOT NULL,
               created_at TEXT NOT NULL
             );
+            CREATE TABLE IF NOT EXISTS tasks (
+              task_id      TEXT PRIMARY KEY,
+              batch_id     TEXT NOT NULL,
+              design_id    TEXT NOT NULL,
+              payload_json TEXT NOT NULL,
+              source       TEXT NOT NULL,
+              submitted_at TEXT NOT NULL
+            );
             """
         )
 
@@ -97,8 +105,24 @@ def list_events(project_id: str, db_path: Path = DEFAULT_DB) -> list[dict]:
 # ---------------------------------------------------------------------------
 
 
-def save_task(task: SimulationTask, db_path: Path = DEFAULT_DB) -> None:
-    raise NotImplementedError("Day 6-8 实现：仿真任务入库")
+def save_task(task: SimulationTask, batch_id: str = "", db_path: Path = DEFAULT_DB) -> bool:
+    """任务入库（幂等）：task_id 已存在则忽略。返回 True=新任务，False=重复。"""
+    now = datetime.now(UTC).isoformat()
+    with _connect(db_path) as conn:
+        cur = conn.execute(
+            """INSERT OR IGNORE INTO tasks(task_id, batch_id, design_id, payload_json,
+                                            source, submitted_at)
+               VALUES(?,?,?,?,?,?)""",
+            (
+                task.task_id,
+                batch_id,
+                task.design_id,
+                task.model_dump_json(),
+                task.source.value,
+                now,
+            ),
+        )
+    return cur.rowcount == 1
 
 
 def save_result(result: SimulationResult, db_path: Path = DEFAULT_DB) -> None:

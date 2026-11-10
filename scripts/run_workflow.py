@@ -2,7 +2,7 @@
 
 演示四件事：
 1. 一句话需求 -> parse -> retrieve -> 停在 CONFIRM 闸门（缺信息不盲跑）
-2. 工程师 approve -> 闸门放行 -> sample 产出候选点 -> 停在 SUBMIT（Day 6 接入）
+2. 工程师 approve -> 闸门放行 -> sample 产出候选点 -> submit 导出任务单 -> 停在 INGEST（Day 8 接入）
 3. 断点恢复：从 SQLite 重新 load，证明"关了程序也能接着干"
 4. 流水账：每一步都有审计事件
 
@@ -63,11 +63,12 @@ def main() -> int:
     show(state)
     assert state.phase == Phase.CONFIRM, "有待确认项时必须停在 CONFIRM"
 
-    print("\n[2] 工程师批准，闸门放行（confirm -> sample -> 停在 submit）...")
+    print("\n[2] 工程师批准，闸门放行（confirm -> sample -> submit 导出任务单 -> 停在 ingest）...")
     state = approve(project_id, approver="工程师小张")
     state = run_until_stopped(state)
     show(state)
-    assert state.phase == Phase.SUBMIT, "采样完成后应停在 SUBMIT（Day 6 接入）"
+    assert state.phase == Phase.INGEST, "任务导出后应停在 INGEST（Day 8 接入）"
+    print("任务单已导出到 data/incoming/（CSV + JSON，全部 simulated 标签）")
 
     print("\n[3] 模拟程序重启：从 SQLite 恢复记事本...")
     restored = storage.load_state(project_id)
