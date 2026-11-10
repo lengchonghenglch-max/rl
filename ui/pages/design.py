@@ -19,7 +19,11 @@ def render() -> None:
         if len((request.value or "").strip()) < 5:
             ui.notify("请补充需求描述", type="warning")
             return
-        run = workflow.create_run(request.value.strip())
+        try:
+            run = workflow.create_run(request.value.strip())
+        except Exception as exc:  # noqa: BLE001 - 解析失败（LLM/校验）要提示而不是白屏
+            ui.notify(f"需求解析失败：{exc}", type="negative")
+            return
         state.state.run_id = run["run_id"]
         result.clear()
         with result:

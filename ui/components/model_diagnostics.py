@@ -11,9 +11,14 @@ def model_diagnostics(run: dict) -> None:
     if not batch:
         ui.label("采样与仿真数据就绪后显示代理模型预测。")
         return
+    spec = run.get("spec") or {}
+    names = [p["name"] for p in spec.get("parameters", [])]
     points = batch["candidates"]
-    x = [item["x_physical"]["line_width_um"] for item in points]
-    y = [item["x_physical"]["gap_um"] for item in points]
+    if len(names) < 2:
+        ui.label("GP 诊断演示需要至少两个可调参数（接入 active_learning 后由真实模型替换）。")
+        return
+    x = [item["x_physical"][names[0]] for item in points]
+    y = [item["x_physical"][names[1]] for item in points]
     mean = [-1.4 - 0.012 * a + 0.005 * b for a, b in zip(x, y)]
     std = [0.12 + 0.03 * abs(math.sin(a / 8) * math.cos(b / 5)) for a, b in zip(x, y)]
     fig = go.Figure(
@@ -35,8 +40,8 @@ def model_diagnostics(run: dict) -> None:
     fig.update_layout(
         height=320,
         margin={"l": 50, "r": 20, "t": 30, "b": 45},
-        xaxis_title="line_width_um (um)",
-        yaxis_title="Predicted insertion loss (dB)",
+        xaxis_title=f"{names[0]} ({spec['parameters'][0]['unit']})",
+        yaxis_title="预测指标均值 ± 1σ (dB)",
     )
     provenance_badge("prediction")
     ui.plotly(fig).classes("w-full")

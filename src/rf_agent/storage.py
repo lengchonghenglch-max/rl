@@ -72,6 +72,7 @@ def save_state(state: WorkflowState, db_path: Path = DEFAULT_DB) -> None:
 
 def load_state(project_id: str, db_path: Path = DEFAULT_DB) -> WorkflowState:
     """从存档恢复记事本；不存在时抛 KeyError。"""
+    init_db(db_path)  # 库还没建表时也按"项目不存在"报 KeyError，而不是 sqlite 错误
     with _connect(db_path) as conn:
         row = conn.execute(
             "SELECT state_json FROM workflow_state WHERE project_id=?", (project_id,)

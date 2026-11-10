@@ -13,7 +13,9 @@ def render() -> None:
         return
     run = workflow.snapshot(state.state.run_id)
     provenance_badge("simulated")
-    ui.label(
-        f"约束过滤前 {len(run['sample_batch']['candidates']) if run['sample_batch'] else 24} 点 · 过滤后 {len(run['sample_batch']['candidates']) if run['sample_batch'] else 0} 点"
-    )
+    batch = run["sample_batch"]
+    if batch:
+        ui.label(f"{len(batch['candidates'])} 个可行候选点（不可行点已在采样阶段过滤）")
+    else:
+        ui.label("尚未生成采样批次：请先在工程确认页批准")
     parameter_space(run)
