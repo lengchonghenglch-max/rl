@@ -21,6 +21,9 @@ data/incoming/*
 !data/**/.gitkeep
 data/*.db
 
+# NiceGUI 本地会话存储（浏览器 localStorage 镜像，不入库）
+.nicegui/
+
 # IDE / 系统
 .idea/
 .vscode/
