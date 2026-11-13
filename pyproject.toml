@@ -3,6 +3,12 @@ name = "rf-agent"
 version = "0.1.0"
 description = "RF AI Agent MVP（三人团队，14 天手册）"
 requires-python = ">=3.12"
+dependencies = [
+    "pydantic>=2.5",
+    "numpy>=1.26",
+    "scipy>=1.11",
+    "scikit-learn>=1.4",
+]
 
 [build-system]
 requires = ["setuptools>=68"]
