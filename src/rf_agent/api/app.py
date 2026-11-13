@@ -17,11 +17,18 @@ register_pages()
 
 
 def main() -> None:
+    import os
+
     import uvicorn
     from nicegui import ui
 
     ui.run_with(app, title="RF AI Agent", storage_secret="rf-ai-agent-local-session")
-    uvicorn.run(app, host="127.0.0.1", port=8000, log_level="info")
+    uvicorn.run(
+        app,
+        host=os.getenv("RF_AGENT_HOST", "127.0.0.1"),
+        port=int(os.getenv("RF_AGENT_PORT", "8000")),
+        log_level="info",
+    )
 
 
 if __name__ == "__main__":
