@@ -4,6 +4,7 @@
 storage.py 的 WorkflowState（单一状态来源），审批后自动走 sample -> submit。
 """
 
+import json
 import sqlite3
 
 import pytest
@@ -145,3 +146,57 @@ def test_ingest_returns_declared_label(service):
 def test_snapshot_missing_run_raises_keyerror(service):
     with pytest.raises(KeyError):
         service.snapshot("run-nonexistent")
+
+
+def _approved_run(service):
+    run = service.create_run(RAW)
+    return service.resolve_approval(run["run_id"], "approve", "范围已确认", "manual-loop-approval")
+
+
+def test_manual_summary_results_fit_gp_and_approve_next_batch(service):
+    run = _approved_run(service)
+    sheet_name, task_sheet = service.task_sheet(run["run_id"])
+    assert sheet_name.endswith(".csv")
+    assert b"task_id" in task_sheet
+    candidates = run["sample_batch"]["candidates"][:2]
+    lines = ["task_id,status,simulator_version,insertion_loss_db,s11_db,error"]
+    for index, candidate in enumerate(candidates):
+        lines.append(
+            f"task-{candidate['candidate_id']},success,ADS-2026,{1.0 + index * 0.2},-15.0,"
+        )
+
+    imported = service.ingest_task_results(run["run_id"], "summary.csv", "\n".join(lines).encode())
+
+    assert imported["mode"] == "summary"
+    assert imported["tasks"] == 2
+    recommendation = service.recommend_next_batch(run["run_id"], batch_size=2)
+    assert len(recommendation["candidates"]) == 2
+    assert recommendation["metric"] == "insertion_loss_db"
+    approved = service.approve_next_batch(run["run_id"], True, "继续优化")
+    assert approved["approved"] is True
+    assert len(approved["sample_batch"]["candidates"]) == 2
+    assert service.snapshot(run["run_id"])["phase"] == "ingest"
+
+
+def test_manual_curve_results_extract_metrics_in_requested_band(service):
+    run = _approved_run(service)
+    candidate = run["sample_batch"]["candidates"][0]
+    content = (
+        "task_id,frequency_hz,s11_db,s21_db,simulator_version\n"
+        f"task-{candidate['candidate_id']},2400000000,-18,-1.2,HFSS-1\n"
+        f"task-{candidate['candidate_id']},2450000000,-12,-1.8,HFSS-1\n"
+    ).encode()
+
+    imported = service.ingest_task_results(run["run_id"], "curves.csv", content)
+
+    assert imported["mode"] == "curve"
+    assert imported["tasks"] == 1
+    with service._connect() as db:
+        result = db.execute(
+            "SELECT metrics_json FROM ui_task_results WHERE run_id=?", (run["run_id"],)
+        ).fetchone()
+    metrics = json.loads(result["metrics_json"])
+    assert {item["name"]: item["value"] for item in metrics} == {
+        "insertion_loss_db": 1.8,
+        "s11_db": -12.0,
+    }

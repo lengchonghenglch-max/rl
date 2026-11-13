@@ -5,12 +5,14 @@ from ui.main import register_pages
 
 from rf_agent.api.approvals import router as approvals_router
 from rf_agent.api.artifacts import router as artifacts_router
+from rf_agent.api.artifacts import run_router as manual_loop_router
 from rf_agent.api.runs import router as runs_router
 
 app = FastAPI(title="RF AI Agent", version="0.1.0")
 app.include_router(runs_router)
 app.include_router(approvals_router)
 app.include_router(artifacts_router)
+app.include_router(manual_loop_router)
 register_pages()
 
 

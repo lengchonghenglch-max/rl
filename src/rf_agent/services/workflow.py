@@ -15,18 +15,37 @@ from __future__ import annotations
 import csv
 import io
 import json
+import math
 import sqlite3
 import uuid
 from contextlib import closing
 from pathlib import Path
 
 from rf_agent import agent, rag, storage
-from rf_agent.contracts import DataLabel, Phase, WorkflowState
+from rf_agent import tasks as task_module
+from rf_agent.contracts import (
+    DataLabel,
+    MetricValue,
+    Phase,
+    SampleBatch,
+    SimulationResult,
+    TaskStatus,
+    WorkflowState,
+)
 from rf_agent.services import mock_provider as mock
 
 DB_PATH = Path("data/rf_agent.db")
 MAX_UPLOAD = 5_000_000
 ALLOWED_EXTENSIONS = {".csv", ".json"}
+
+
+def _metric_unit(name: str) -> str:
+    lowered = name.lower()
+    if lowered.endswith(("_hz", "_khz", "_mhz", "_ghz")):
+        return "Hz"
+    if lowered.endswith("_db"):
+        return "dB"
+    return "unitless"
 
 
 class WorkflowService:
@@ -47,6 +66,16 @@ class WorkflowService:
             """CREATE TABLE IF NOT EXISTS ui_approval_log (
             idempotency_key TEXT PRIMARY KEY, run_id TEXT NOT NULL,
             action TEXT NOT NULL, reason TEXT NOT NULL, created_at TEXT NOT NULL)"""
+        )
+        connection.execute(
+            """CREATE TABLE IF NOT EXISTS ui_task_results (
+            task_id TEXT PRIMARY KEY, run_id TEXT NOT NULL, metrics_json TEXT NOT NULL,
+            simulator_version TEXT NOT NULL, source TEXT NOT NULL, status TEXT NOT NULL,
+            error TEXT, artifact_id TEXT, created_at TEXT NOT NULL)"""
+        )
+        connection.execute(
+            """CREATE TABLE IF NOT EXISTS ui_run_tasks (
+            run_id TEXT NOT NULL, task_id TEXT NOT NULL, PRIMARY KEY(run_id, task_id))"""
         )
         return connection
 
@@ -94,6 +123,7 @@ class WorkflowService:
             "pending_confirmations": list(state.pending_confirmations),
             "approval": approval,
             "sample_batch": batch.model_dump(mode="json") if batch else None,
+            "acquisition_batch": state.latest_acquisition.model_dump(mode="json") if state.latest_acquisition else None,
             "errors": list(state.errors),
         }
 
@@ -140,6 +170,7 @@ class WorkflowService:
             storage.log_event(run_id, Phase.CONFIRM, f"UI 批准，理由：{reason}", DB_PATH)
             state = agent.approve(run_id, approver="前端UI", db_path=DB_PATH)
             state = agent.run_until_stopped(state, DB_PATH)  # sample -> submit -> 停在 INGEST
+            self._register_batch_tasks(run_id, state)
         else:
             storage.log_event(run_id, Phase.CONFIRM, f"UI 退回，理由：{reason}", DB_PATH)
             state.transition(Phase.FAILED)
@@ -237,6 +268,215 @@ class WorkflowService:
     def mock_artifact(self) -> tuple[str, bytes, str]:
         return mock.artifacts()
 
+    def task_sheet(self, run_id: str) -> tuple[str, bytes]:
+        state = storage.load_state(run_id, DB_PATH)
+        if state.latest_sample_batch is None or state.design_spec is None:
+            raise ValueError("run has no task batch to export")
+        _, _, csv_path, _ = task_module.export_tasks(state.latest_sample_batch, state.design_spec, DB_PATH)
+        return csv_path.name, csv_path.read_bytes()
+
+    def result_template(self, run_id: str, mode: str = "summary") -> tuple[str, bytes]:
+        """Return a task-linked summary or S-parameter curve CSV template."""
+        state = storage.load_state(run_id, DB_PATH)
+        batch = state.latest_sample_batch
+        if batch is None:
+            raise ValueError("run has no exported tasks")
+        out = io.StringIO(newline="")
+        writer = csv.writer(out)
+        if mode == "summary":
+            metrics = [metric.name for metric in (state.design_spec.metrics if state.design_spec else [])]
+            writer.writerow(["task_id", "status", "simulator_version", *metrics, "error"])
+            for candidate in batch.candidates:
+                task_id = f"task-{candidate.candidate_id}"
+                writer.writerow([task_id, "success", "", *("" for _ in metrics), ""])
+            return f"{run_id}_summary_results_template.csv", out.getvalue().encode("utf-8-sig")
+        if mode == "curve":
+            writer.writerow(["task_id", "frequency_hz", "s11_db", "s21_db", "simulator_version"])
+            for candidate in batch.candidates:
+                writer.writerow([f"task-{candidate.candidate_id}", "", "", "", ""])
+            return f"{run_id}_curve_results_template.csv", out.getvalue().encode("utf-8-sig")
+        raise ValueError("mode must be summary or curve")
+
+    def ingest_task_results(self, run_id: str, filename: str, content: bytes) -> dict:
+        """Import either wide summary rows or task_id-tagged S-parameter sweep rows."""
+        state = storage.load_state(run_id, DB_PATH)
+        if state.design_spec is None or state.latest_sample_batch is None:
+            raise ValueError("run must have a design spec and an exported task batch")
+        if not content or len(content) > MAX_UPLOAD:
+            raise ValueError("file must be between 1 byte and 5 MB")
+        if Path(filename).suffix.lower() != ".csv":
+            raise ValueError("task result import currently accepts CSV files")
+        try:
+            rows = list(csv.DictReader(io.StringIO(content.decode("utf-8-sig"))))
+        except (UnicodeDecodeError, csv.Error) as exc:
+            raise ValueError("invalid CSV file") from exc
+        if not rows:
+            raise ValueError("CSV has no result rows")
+        with closing(self._connect()) as db:
+            known_tasks = {
+                row[0]
+                for row in db.execute("SELECT task_id FROM ui_run_tasks WHERE run_id=?", (run_id,))
+            }
+        known_tasks.update(f"task-{candidate.candidate_id}" for candidate in state.latest_sample_batch.candidates)
+        task_ids = {row.get("task_id", "").strip() for row in rows}
+        if "" in task_ids or not task_ids.issubset(known_tasks):
+            unknown = sorted(task_ids - known_tasks)
+            raise ValueError(f"CSV task_id is missing or unknown: {unknown[:3]}")
+        columns = set(rows[0])
+        curve_mode = {"frequency_hz", "s11_db", "s21_db"}.issubset(columns)
+        metric_specs = {metric.name: metric for metric in state.design_spec.metrics}
+        grouped: dict[str, list[dict]] = {}
+        for row in rows:
+            grouped.setdefault(row["task_id"].strip(), []).append(row)
+        parsed: dict[str, tuple[list[MetricValue], str, str, str | None]] = {}
+        if curve_mode:
+            for task_id, task_rows in grouped.items():
+                points = []
+                versions = {r.get("simulator_version", "").strip() for r in task_rows if r.get("simulator_version", "").strip()}
+                if len(versions) > 1:
+                    raise ValueError(f"task {task_id} has multiple simulator versions")
+                for row in task_rows:
+                    try:
+                        points.append((float(row["frequency_hz"]), float(row["s11_db"]), float(row["s21_db"])))
+                    except (TypeError, ValueError) as exc:
+                        raise ValueError(f"task {task_id} has non-numeric curve values") from exc
+                if not all(all(math.isfinite(value) for value in point) and point[0] > 0 for point in points):
+                    raise ValueError(f"task {task_id} curve values must be finite and frequency positive")
+                metrics = []
+                for name, spec in metric_specs.items():
+                    low, high = spec.band_hz or state.design_spec.frequency_band_hz
+                    in_band = [point for point in points if low <= point[0] <= high]
+                    if not in_band:
+                        continue
+                    if name == "s11_db":
+                        value = max(point[1] for point in in_band)
+                    elif name == "insertion_loss_db":
+                        value = max(-point[2] for point in in_band)
+                    else:
+                        continue
+                    metrics.append(MetricValue(name=name, value=value, unit=_metric_unit(name), band_low_hz=low, band_high_hz=high))
+                if not metrics:
+                    raise ValueError(f"task {task_id} curve has no points in the requested metric bands")
+                parsed[task_id] = (metrics, next(iter(versions), ""), "success", None)
+        else:
+            required = {"task_id", "status", "simulator_version"}
+            if not required.issubset(columns):
+                raise ValueError("summary CSV requires task_id, status, simulator_version, and metric columns")
+            for task_id, task_rows in grouped.items():
+                if len(task_rows) != 1:
+                    raise ValueError(f"summary CSV must contain one row per task: {task_id}")
+                row = task_rows[0]
+                status = row.get("status", "").strip().lower()
+                error = row.get("error", "").strip() or None
+                if status not in {"success", "failed"}:
+                    raise ValueError(f"task {task_id} status must be success or failed")
+                metrics = []
+                if status == "success":
+                    for name, spec in metric_specs.items():
+                        raw = row.get(name, "").strip()
+                        if not raw:
+                            raise ValueError(f"task {task_id} missing metric {name}")
+                        try:
+                            value = float(raw)
+                        except ValueError as exc:
+                            raise ValueError(f"task {task_id} metric {name} must be numeric") from exc
+                        if not math.isfinite(value):
+                            raise ValueError(f"task {task_id} metric {name} must be finite")
+                        metrics.append(MetricValue(name=name, value=value, unit=_metric_unit(name), band_low_hz=spec.band_hz[0] if spec.band_hz else None, band_high_hz=spec.band_hz[1] if spec.band_hz else None))
+                    if not metrics:
+                        raise ValueError(f"task {task_id} has no supported metric columns")
+                elif not error:
+                    error = "Manual simulation marked failed"
+                parsed[task_id] = (metrics, row.get("simulator_version", "").strip(), status, error)
+
+        digest = mock.sha256(content)
+        artifact_id = f"artifact-{uuid.uuid4().hex[:10]}"
+        now = mock.iso_now()
+        with closing(self._connect()) as db, db:
+            db.execute(
+                "INSERT INTO ui_artifacts VALUES(?,?,?,?,?,?,?,?)",
+                (artifact_id, run_id, Path(filename).name, content, "text/csv", digest, DataLabel.SIMULATION.value, now),
+            )
+            for task_id, (metrics, version, status, error) in parsed.items():
+                db.execute(
+                    """INSERT INTO ui_task_results VALUES(?,?,?,?,?,?,?,?,?)
+                    ON CONFLICT(task_id) DO UPDATE SET metrics_json=excluded.metrics_json,
+                    simulator_version=excluded.simulator_version, source=excluded.source,
+                    status=excluded.status, error=excluded.error, artifact_id=excluded.artifact_id,
+                    created_at=excluded.created_at WHERE ui_task_results.run_id=excluded.run_id""",
+                    (task_id, run_id, json.dumps([m.model_dump(mode="json") for m in metrics]), version, DataLabel.SIMULATION.value, status, error, artifact_id, now),
+                )
+        storage.log_event(run_id, Phase.INGEST, f"导入人工仿真结果 {filename}：{len(parsed)} 个任务，模式={'curve' if curve_mode else 'summary'}，SHA256 {digest[:12]}", DB_PATH)
+        return {"artifact_id": artifact_id, "run_id": run_id, "tasks": len(parsed), "mode": "curve" if curve_mode else "summary", "sha256": digest}
+
+    def recommend_next_batch(self, run_id: str, batch_size: int = 4, kind: str = "ei") -> dict:
+        """Fit on imported real results and persist a human-reviewable acquisition batch."""
+        from rf_agent.active_learning import fit_gp, select_next_batch
+
+        state = storage.load_state(run_id, DB_PATH)
+        if state.design_spec is None or state.search_space is None:
+            raise ValueError("run has no approved design space")
+        metric = state.design_spec.metrics[0].name
+        with closing(self._connect()) as db:
+            rows = db.execute(
+                """SELECT r.*, t.payload_json FROM ui_task_results r
+                JOIN tasks t ON t.task_id=r.task_id
+                WHERE r.run_id=? AND r.source=? AND r.status='success'""",
+                (run_id, DataLabel.SIMULATION.value),
+            ).fetchall()
+        results = []
+        params = {}
+        for row in rows:
+            task = json.loads(row["payload_json"])
+            task_metrics = [MetricValue.model_validate(item) for item in json.loads(row["metrics_json"])]
+            if not any(item.name == metric for item in task_metrics):
+                continue
+            results.append(SimulationResult(task_id=row["task_id"], status=TaskStatus.SUCCESS, metrics=task_metrics, source=DataLabel.SIMULATION, simulator_version=row["simulator_version"]))
+            values = task["parameter_values"]
+            params[row["task_id"]] = {
+                parameter.name: (values[parameter.name] - parameter.lower) / (parameter.upper - parameter.lower)
+                for parameter in state.search_space.parameters
+            }
+        model = fit_gp(results, metric, params)
+        batch = select_next_batch(model, state.search_space, budget_remaining=100, batch_size=batch_size, kind=kind)
+        if not batch.candidates:
+            raise ValueError("no feasible acquisition candidates found")
+        state.latest_acquisition = batch
+        state.transition(Phase.ACQUIRE)
+        storage.save_state(state, DB_PATH)
+        storage.log_event(run_id, Phase.ACQUIRE, f"GP {model.version} 基于 {len(results)} 个真实仿真点生成 {len(batch.candidates)} 个 {kind.upper()} 建议，等待工程师批准", DB_PATH)
+        return {"model_version": model.version, "metric": metric, **batch.model_dump(mode="json")}
+
+    def _register_batch_tasks(self, run_id: str, state: WorkflowState) -> None:
+        if state.latest_sample_batch is None:
+            return
+        with closing(self._connect()) as db, db:
+            db.executemany(
+                "INSERT OR IGNORE INTO ui_run_tasks VALUES(?,?)",
+                [(run_id, f"task-{candidate.candidate_id}") for candidate in state.latest_sample_batch.candidates],
+            )
+
+    def approve_next_batch(self, run_id: str, approve: bool, reason: str = "") -> dict:
+        state = storage.load_state(run_id, DB_PATH)
+        acquisition = state.latest_acquisition
+        if state.phase != Phase.ACQUIRE or acquisition is None:
+            raise ValueError("run has no acquisition batch awaiting review")
+        if not approve:
+            storage.log_event(run_id, Phase.ACQUIRE, f"工程师拒绝下一批建议：{reason}", DB_PATH)
+            state.transition(Phase.DONE)
+            storage.save_state(state, DB_PATH)
+            return {"approved": False, "phase": state.phase.value}
+        if state.design_spec is None:
+            raise ValueError("run has no design spec")
+        sample_batch = SampleBatch(batch_id=acquisition.batch_id, design_spec_id=acquisition.design_spec_id, seed=42, sampler=acquisition.candidates[0].candidate.sampler, candidates=[item.candidate for item in acquisition.candidates], created_at=acquisition.created_at)
+        state.latest_sample_batch = sample_batch
+        tasks, n_new, csv_path, json_path = task_module.export_tasks(sample_batch, state.design_spec, DB_PATH)
+        self._register_batch_tasks(run_id, state)
+        state.transition(Phase.INGEST)
+        storage.save_state(state, DB_PATH)
+        storage.log_event(run_id, Phase.ACQUIRE, f"工程师批准下一批：导出 {len(tasks)} 个任务（新增 {n_new}），{reason}", DB_PATH)
+        return {"approved": True, "phase": state.phase.value, "sample_batch": sample_batch.model_dump(mode="json"), "csv_path": str(csv_path), "json_path": str(json_path)}
+
     # ------------------------------------------------------------------
     # 报告
     # ------------------------------------------------------------------
@@ -295,6 +535,20 @@ class WorkflowService:
             f"- {item['name']} | SHA-256: `{item['sha256']}` | data_kind: `{item['data_kind']}`"
             for item in arts
         ] or ["- No uploaded artifacts"]
+        with closing(self._connect()) as db:
+            result_rows = db.execute(
+                "SELECT task_id, status, metrics_json, simulator_version FROM ui_task_results WHERE run_id=? ORDER BY created_at",
+                (run_id,),
+            ).fetchall()
+        lines += ["", "## 仿真结果"]
+        lines += [
+            f"- {row['task_id']} | {row['status']} | {row['simulator_version'] or 'version unspecified'} | "
+            + ", ".join(f"{metric['name']}={metric['value']} {metric['unit']}" for metric in json.loads(row["metrics_json"]))
+            for row in result_rows
+        ] or ["- No task results imported"]
+        if snap["acquisition_batch"]:
+            acq = snap["acquisition_batch"]
+            lines += ["", "## 下一轮建议", f"- 模型 {acq['model_version']} · {len(acq['candidates'])} 个候选点，待工程师批准"]
         events = storage.list_events(run_id, DB_PATH)
         if events:
             lines += ["", "## 审计事件"]

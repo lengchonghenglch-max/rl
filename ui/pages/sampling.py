@@ -17,6 +17,7 @@ def render() -> None:
     if batch:
         ui.label(f"{len(batch['candidates'])} 个可行候选点（不可行点已在采样阶段过滤）")
         ui.label(f"采样方式：{batch['sampler']} · seed={batch['seed']} · 批次 {batch['batch_id']}")
+        ui.button("下载仿真任务单", icon="download", on_click=lambda: ui.download(f"/runs/{state.state.run_id}/task-sheet"))
     else:
         ui.label("尚未生成采样批次：请先在工程确认页批准")
     parameter_space(run)
