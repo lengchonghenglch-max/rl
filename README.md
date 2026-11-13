@@ -34,10 +34,10 @@ pip install -r requirements.txt
 pip install -e .          # 把 rf_agent 包装进环境，streamlit/pytest 才能 import
 copy .env.example .env    # 然后填入自己的 DASHSCOPE_API_KEY（不入库）
 pytest -q                 # 合同测试必须全绿
-streamlit run app.py      # Day 1 验收门槛
+python -m ui.main         # NiceGUI + FastAPI 工作台
 ```
 
-启动后可在首页查询知识库；检索结果会显示文档、页码和引用片段，库外问题会返回“资料中未找到”。所有知识建议都需要工程师确认。
+打开 `http://127.0.0.1:8000` 使用完整工作台。也可运行 `streamlit run app.py` 启动独立 RAG 检索页。RAG 引用显示文档、页码和片段；库外问题会返回“资料中未找到”。知识建议需要工程师确认。
 
 ## 目录结构
 
@@ -51,17 +51,19 @@ src/rf_agent/
   storage.py          # C：SQLite 入库
   adapters/llm.py     # C：百炼客户端（唯一 LLM 出口）
   adapters/simulator.py # C：仿真 Adapter（当前 Mock）
-  ui/pages.py         # C：Streamlit 页面
+ui/                   # C：NiceGUI 页面与工作流组件
 tests/                # test_contracts 为公共地基，其余按成员划分
 data/knowledge|simulated|incoming/   # 知识文档 / 模拟数据 / 仿真结果导入
 docs/                 # 架构与记录
-app.py                # Streamlit 入口
+app.py                # 独立 Streamlit RAG 检索页
+ui/main.py            # NiceGUI + FastAPI 工作台入口
 ```
 
 ## 当前状态
 
 - [x] 知识库 BM25 检索、页码引用、拒答阈值与召回评测（A）
 - [x] 参数空间、LHS/Sobol 采样、GP 与 EI/UCB 选点（B）
-- [ ] 完整需求工作流、仿真结果导入与报告界面（C）
+- [x] NiceGUI/FastAPI 需求工作流、RAG 引用、审批闸门、LHS 采样与任务导出（C 接入 A/B）
+- [ ] 真实仿真器接入、结果分析和 GP 主动学习完整闭环
 
 知识库清单、版本和基线报告位于 `data/knowledge/`；当前评测基线为 30 题 Recall@5 0.815、MRR@5 0.611、负例拒答准确率 1.000。
