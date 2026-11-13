@@ -19,6 +19,8 @@ data/knowledge/*
 data/simulated/*
 data/incoming/*
 !data/**/.gitkeep
+!data/knowledge/**
+data/knowledge/**/__pycache__/
 data/*.db
 
 # NiceGUI 本地会话存储（浏览器 localStorage 镜像，不入库）

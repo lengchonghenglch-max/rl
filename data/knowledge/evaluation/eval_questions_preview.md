@@ -1,0 +1,119 @@
+# RAG 评测集（30 题）预览
+
+- 总题数：30（fact 24 / cross 3 / negative 3）
+- 真值格式：doc_id + PDF 物理页 + 原文引文；可接受集合用于跨篇题
+
+- **Q01** [sampling/fact] What does the 'LHS in LHS' expansion algorithm enable when adding samples to an existing LHS design?
+  - 真值：a05 p.1（+ 无）
+  - 引文：ri knowledge of the targeted sample size. In this work, we present “LHS in LHS”, a new expansion algorithm for LHS that enables the addition of new samples to an existing LHS-distr…
+  - 答案：It expands an existing LHS set with new samples while approximately preserving LHS properties.
+- **Q02** [sampling/fact] In the generalization of Latin hypercube sampling, which two designs are the extremes of the partially stratified sample (PSS) spectrum?
+  - 真值：a06 p.1（+ 无）
+  - 引文：f stratiﬁed sampling (SS) designs referred to as partially stratiﬁed sample (PSS) designs. True SS and LHS are shown to represent the extremes of the PSS spectrum. The variance of …
+  - 答案：True stratified sampling (SS) and LHS.
+- **Q03** [sampling/fact] What computational-complexity improvement do the proposed lattice-based Latin hypercube designs claim?
+  - 真值：a03 p.27（+ 无）
+  - 引文：tly generating space-ﬁlling designs with arbitrary n and d. The key innovation is the use of new shortcut formulas that reduce the computational complexity from O(n2) to O(n) and O…
+  - 答案：From O(n^2) to O(n) and O{log(n)}.
+- **Q04** [constraint/fact] What does the paper report about using the deterministic global solver MAiNGO to optimize the acquisition function?
+  - 真值：a13 p.11（+ 无）
+  - 引文：th κ = 2 and the same N = 3 initial data points (i.e., consistent with the setup in Section 5.1.1), BO utilizing MAiNGO never(!) finds a globally nearoptimal solution of (1), while…
+  - 答案：In that setting BO with MAiNGO never found the globally near-optimal solution; IMS/ILS found it with 19%/29% probability.
+- **Q05** [constraint/fact] On which physics test problem does SCBO outperform all baselines?
+  - 真值：a07 p.5（+ 无）
+  - 引文：ksson1, Matthias Poloczek1 size q = 1, and 10 initial points. Fig. 2 summarizes the results for the four test problems. SCBO outperforms all baselines on the 3D tension-compression…
+  - 答案：The 3D tension-compression string problem.
+- **Q06** [constraint/fact] In the constrained BO paper for automatic chemical design, what fraction of latent points decoded by constrained BO produce drug-like molecules?
+  - 真值：a08 p.6（+ 无）
+  - 引文：trained Bayesian optimization (baseline) [Gómez-Bombarelli et al., 2018] is compared in Figure 4. The results show that greater than 80% of the latent points decoded by constrained…
+  - 答案：More than 80% (vs less than 5% for unconstrained BO).
+- **Q07** [constraint/fact] What high-dimensional challenge does Local Constrained Bayesian Optimization (LCBO) target?
+  - 真值：a09 p.1（+ 无）
+  - 引文：hor(s). Bayesian optimization (BO) for high-dimensional constrained problems remains a significant challenge due to the curse of dimensionality. We propose Local Constrained Bayesi…
+  - 答案：The curse of dimensionality in high-dimensional constrained BO.
+- **Q08** [gp/fact] What does 'manipulating factors' mean in the GP surrogate model for carbon nanotube growth experiments?
+  - 真值：a01 p.1（+ 无）
+  - 引文：experimental inputs are controlled by other manipulating factors. Particularly, we are interested in the case where the control precision is not very high, so the input factor valu…
+  - 答案：Experimental inputs are controlled via manipulating factors with imperfect precision, so input values vary even under the same setting.
+- **Q09** [gp/fact] What mean mismatch does the GP waveform surrogate achieve in its in-sample tests?
+  - 真值：a10 p.8（+ 无）
+  - 引文：ﬁlled red and blue histograms respectively. the vast majority of the model outputs and the training data are small. The mean mismatch from these in-sample tests is 0.003, with 95% …
+  - 答案：0.003 (95% of mismatches between 0.000245 and 0.0124).
+- **Q10** [gp/fact] What does the constrained GP emulator guarantee about inequality constraints?
+  - 真值：a15 p.27（+ 无）
+  - 引文：ons and inequality constraints into a Gaussian process emulator. Our method ensures that the inequality constraints are respected not only in a discrete subset of the input set but…
+  - 答案：The constraints are respected over the entire input domain, not just a discrete subset.
+- **Q11** [acquisition/fact] What does the consequential improvement (CI) acquisition function allow to be selected simultaneously?
+  - 真值：a12 p.1（+ 无）
+  - 引文：w-ﬁdelity levels. In this paper, a new consequential improvement (CI) acquisition function is proposed to allow for the simultaneous selection of the solution and the ﬁdelity level…
+  - 答案：The solution and the fidelity level.
+- **Q12** [acquisition/fact] What does the paper on composition of kernel and acquisition functions say has received less attention in high-dimensional BO?
+  - 真值：a02 p.1（+ 无）
+  - 引文：model. Despite its sample efficiency, Bayesian Optimization does not scale well with the dimensions of the problem. The optimization of the acquisition function has received less a…
+  - 答案：Optimizing the acquisition function; its cost was considered negligible relative to objective evaluation.
+- **Q13** [metrics/fact] What passband insertion loss and stopband range are measured for the DGS low-pass filter?
+  - 真值：p07 p.1（+ 无）
+  - 引文：the stopband bandwidth. The fabricated prototype exhibits a measured cutoff frequency of approximately 2.1 GHz, with an insertion loss lower than 1 dB in the passband. A wide stopb…
+  - 答案：Insertion loss below 1 dB; stopband from 2.8 GHz to 8 GHz with attenuation above 26 dB.
+- **Q14** [metrics/fact] Over what frequency range is the uncertainty-matrix analysis of S-parameter measurements illustrated?
+  - 真值：a14 p.1（+ 无）
+  - 引文：surements. A simple example is given using measurements made on a waveguide mismatched line section at frequencies from 75 GHz to 110 GHz. The analysis is also useful when multiple…
+  - 答案：75–110 GHz (WR-10 waveguide).
+- **Q15** [metrics/fact] In the TRL calibration example, how much longer is the line delay than the thru delay?
+  - 真值：a16 p.2（+ 无）
+  - 引文：ly overlapping frequency range. For instance, one might have a “thru” of 132 pS delay and a “line” of 345 pS delay. The line is 213 pS longer than the thru. The center frequency wh…
+  - 答案：213 pS (line 345 pS vs thru 132 pS).
+- **Q16** [tooling/fact] What frequency range and semiconductor process are used for the TACS-RF agent-designed transmitter?
+  - 真值：a04 p.1（+ 无）
+  - 引文：n RF and mmWave modules. We validate the framework through the agentic design of a 240–251 GHz sub-THz transmitter in a 90 nm SiGe BiCMOS process. The agent semi-autonomously desig…
+  - 答案：240–251 GHz sub-THz transmitter in 90 nm SiGe BiCMOS.
+- **Q17** [tooling/fact] What accuracy gain and token reduction does AutoEDA report?
+  - 真值：a17 p.1（+ 无）
+  - 引文：ign flows. Empirical results show that AutoEDA achieves up to 9.9× higher accuracy than naïve approaches while reducing token usage by approximately 97% compared to in-context lear…
+  - 答案：Up to 9.9× higher accuracy and approximately 97% fewer tokens.
+- **Q18** [tooling/fact] What are the clock targets in the RTL-to-GDS agent benchmark?
+  - 真值：a18 p.3（+ 无）
+  - 引文：sign objective becomes demanding. Item Setting Design PicoRV32 RISC-V core Technology Commercial 55-nm technology setup Clock targets 350 MHz (loose), 700 MHz (tight) Flow stages S…
+  - 答案：350 MHz (loose) and 700 MHz (tight).
+- **Q19** [background/fact] What is the outer diameter of the three six-turn inductors used to test the variable-line-width design?
+  - 真值：p01 p.5（+ 无）
+  - 引文：the improvement achieved by the proposed design technique, three sixturn rectangular spiral inductors with an identical outer diameter of 160 μm are investigated and compared. Thes…
+  - 答案：160 μm.
+- **Q20** [background/fact] How many components do the simple pi-model and the advanced model of GaN-on-Si spiral inductors have?
+  - 真值：p02 p.1（+ 无）
+  - 引文：chnology, are exploited to estimate the errors of two lumped geometrically scalable models, i.e., a simple π-model with seven components and an advanced model with thirteen compone…
+  - 答案：Simple pi-model has 7 components; advanced model has 13.
+- **Q21** [background/fact] How far is the suspended spiral inductor from the silicon substrate in the CMOS-MEMS paper?
+  - 真值：p03 p.6（+ 无）
+  - 引文：hite light interferometer. The results revealed that the distance between the spiral inductor and silicon substrate was about 121 μm. The performance of the spiral inductor was mea…
+  - 答案：About 121 μm.
+- **Q22** [background/fact] What RF measurement range is used for the stacked MIM capacitors?
+  - 真值：p04 p.3（+ 无）
+  - 引文：ch necessitates accurate calibration. The RF measurement environment for stacked MIM capacitors is summarized below: 1. Measurement range: 500 MHz to 20 GHz; 2. Measurement equipme…
+  - 答案：500 MHz to 20 GHz.
+- **Q23** [background/fact] What are the chip dimensions of the GaAs IPD bandpass filter?
+  - 真值：p05 p.1（+ 无）
+  - 引文：nto the outer metal wire to improve the capacitance per unit volume while utilizing a miniaturized chip with dimensions 1538 μm × 800 μm (0.029 λ0 × 0.015 λ0) for the BPF. The patt…
+  - 答案：1538 μm × 800 μm.
+- **Q24** [background/fact] What is the configuration of the 2-port symmetric spiral inductor in the modeling chapter?
+  - 真值：p08 p.8（+ 无）
+  - 引文：nductors are fabricated by using a 0.18 µm CMOS process (5 aluminum layers). The conﬁguration of the spiral inductor is 2.85 turns, line width of 20 µm, line space of 1.2 µm, and o…
+  - 答案：2.85 turns, 20 µm line width, 1.2 µm spacing, 400 µm outer diameter, 0.18 µm CMOS with 5 aluminum layers.
+- **Q25** [constraint/cross] Which papers in the library address constrained Bayesian optimization, and what methods do they propose?
+  - 真值：a09 p.1（+ a07:5|a08:6）
+  - 引文：or high-dimensional constrained problems remains a significant challenge due to the curse of dimensionality. We propose Local Constrained Bayesian Optimization (LCBO), a novel fram…
+  - 答案：a07 SCBO (scalable constrained BO); a08 constrained BO for chemical design; a09 LCBO for high-dimensional constrained problems.
+- **Q26** [background/cross] Which two papers report GaAs-based on-chip bandpass filters?
+  - 真值：p05 p.1（+ p06:2）
+  - 引文：139-701, Korea * Correspondence: esk@kw.ac.kr (E.-S.K.); nykim@kw.ac.kr (N.-Y.K.) Abstract: In this study, we propose a miniaturized bandpass filter (BPF) developed by combining an…
+  - 答案：p05 GaAs IPD miniaturized BPF; p06 GaAs quasi-lumped tunable BPF.
+- **Q27** [gp/cross] Which papers build surrogate or emulator models for expensive experiments?
+  - 真值：a15 p.1（+ a10:8|a01:1）
+  - 引文：riables. Our aim is to build a model capable of incorporating both data interpolation and inequality constraints into a Gaussian process emulator. By using a functional decompositi…
+  - 答案：a15 constrained GP emulators; a10 GP regression waveform surrogate; a01 GP surrogate for carbon nanotube growth.
+- **Q28** [none/negative] What is the measured power-added efficiency of the 28 GHz GaN power amplifier described in the collected papers?
+  - 答案：Not in the library (no 28 GHz GaN PA paper).
+- **Q29** [none/negative] What is the battery life of the wearable ECG patch reported in these papers?
+  - 答案：Not in the library (no wearable ECG patch paper).
+- **Q30** [none/negative] Which paper reports the bit error rate of a 100 Gb/s PAM-4 silicon photonic link?
+  - 答案：Not in the library (no silicon photonic link paper).

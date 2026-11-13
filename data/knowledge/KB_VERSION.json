@@ -1,0 +1,72 @@
+{
+  "frozen_at": "2026-11-13 13:15:07",
+  "workspace": "rag store",
+  "rag": {
+    "documents": 25,
+    "pages": 425,
+    "chunks": 1978,
+    "modules": {
+      "acquisition": 3,
+      "background": 7,
+      "constraint": 3,
+      "gp": 3,
+      "metrics": 3,
+      "sampling": 3,
+      "tooling": 3
+    },
+    "licenses": {
+      "CC BY 4.0": 8,
+      "CC BY-NC-SA 3.0": 1,
+      "待核对（以原文为准）": 16
+    },
+    "translations": 12,
+    "index_built_at": "2026-11-11T11:02:06+00:00",
+    "manifest_sha256": "8f701cfa80c03e318c55b00b95cffa37deabb07a98bbab8c61796824e44a27ff",
+    "index_sha256": "77cd1cf233c9d37c5dc5a1859009550d310fc3b03c746620319148ba996517c5"
+  },
+  "evaluation": {
+    "questions": 30,
+    "recall@1": 0.4815,
+    "recall@3": 0.7407,
+    "recall@5": 0.8148,
+    "mrr@5": 0.6111,
+    "page_acc@1": 0.4815,
+    "doc_recall@5": 1.0,
+    "refusal_acc": 1.0,
+    "retriever": "BM25",
+    "report": "evaluation/baseline_bm25.md"
+  },
+  "simulation": {
+    "unique_runs": 30,
+    "trainable_runs": 29,
+    "dataset_rows": 29,
+    "splits": {
+      "train": 21,
+      "val": 4,
+      "test": 4
+    },
+    "metric_version": "simdata-1.0",
+    "dataset_sha256": "39d3936b2cf1994fddc3806e4b26ed0e35386cff7af7ec8b9e506c2727ea6837",
+    "data_origin": "simulation"
+  },
+  "programs": [
+    "autosearch_bridge.py",
+    "build_knowledge_base.py",
+    "build_web_viewer.py",
+    "collect_sim_data.py",
+    "enrich_by_module.py",
+    "knowledge_base_workbench.py",
+    "make_handoff.py",
+    "run_eval.py",
+    "search_papers.py",
+    "tools_api.py",
+    "train_sim_baseline.py",
+    "translate_papers.py"
+  ],
+  "notes": [
+    "论文与仿真数据分开存储；统一通过 procedure/tools_api.py 调用。",
+    "汉化是可选步骤，新论文默认不汉化。",
+    "AutoSearch 依赖锁版本 mcp==1.27.0 / fastmcp==3.2.4 / paper-search-mcp==0.1.3。",
+    "许可待核对：CC BY-NC-SA 论文不能商用/训练；arXiv 论文逐篇确认。"
+  ]
+}

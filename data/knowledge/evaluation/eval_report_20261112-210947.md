@@ -1,0 +1,74 @@
+# RAG 检索评测报告
+
+> 时间：2026-11-12 21:09:47 · 评测集：`/Users/xuan/Downloads/rag store/evaluation/eval_questions.csv` · 知识库：`/Users/xuan/Downloads/rag store/detail` · 检索：BM25（无模块过滤） · k=5
+> 只评测**检索**（是否找到正确证据/页码/是否拒答），不评测生成答案的质量。
+
+## 汇总
+
+| 指标 | 数值 |
+|---|---|
+| 题目 | 30（正题 27 / 负题 3） |
+| Recall@1 | 0.481 |
+| Recall@3 | 0.741 |
+| Recall@5 | 0.815 |
+| MRR@5 | 0.611 |
+| 页码正确率@1 | 0.481 |
+| 文档正确率@1 | 0.963 |
+| 文档 Recall@5（只要含正确文档即可） | 1.000 |
+| 拒答准确率（阈值 14.0811） | 1.000 |
+
+正题 top-1 原始分数：min 13.3325 / median 23.4115；负题 top-1 分数：[13.5141, 8.8233, 13.6002]
+
+## 按类型
+
+| 类型 | 题数 | Recall@5 | 页码正确率@1 |
+|---|---|---|---|
+| cross | 3 | 1.000 | 0.667 |
+| fact | 24 | 0.792 | 0.458 |
+
+## 按模块
+
+| 模块 | 题数 | Recall@5 | 页码正确率@1 |
+|---|---|---|---|
+| acquisition | 2 | 1.000 | 0.500 |
+| background | 7 | 0.857 | 0.429 |
+| constraint | 5 | 0.800 | 0.600 |
+| gp | 4 | 0.750 | 0.750 |
+| metrics | 3 | 1.000 | 0.333 |
+| sampling | 3 | 0.667 | 0.667 |
+| tooling | 3 | 0.667 | 0.000 |
+
+## 逐题结果
+
+| 题号 | 类型 | 期望 | 首个命中 | top-1 | 原始分 | 判定 |
+|---|---|---|---|---|---|---|
+| Q01 | fact | a05 p.1 | rank 1 | a05 p.1 | 23.403 | HIT ✅ |
+| Q02 | fact | a06 p.1 | rank 1 | a06 p.1 | 41.9658 | HIT ✅ |
+| Q03 | fact | a03 p.27 | MISS | a03 p.1 | 21.1195 | MISS ❌ |
+| Q04 | fact | a13 p.11 | MISS | a13 p.19 | 29.3634 | MISS ❌ |
+| Q05 | fact | a07 p.5 | rank 1 | a07 p.5 | 26.0719 | HIT ✅ |
+| Q06 | fact | a08 p.6 | rank 1 | a08 p.6 | 31.8358 | HIT ✅ |
+| Q07 | fact | a09 p.1 | rank 1 | a09 p.1 | 30.7564 | HIT ✅ |
+| Q08 | fact | a01 p.1 | rank 1 | a01 p.1 | 40.3152 | HIT ✅ |
+| Q09 | fact | a10 p.8 | rank 1 | a10 p.8 | 27.7163 | HIT ✅ |
+| Q10 | fact | a15 p.27 | MISS | a15 p.2 | 18.4451 | MISS ❌ |
+| Q11 | fact | a12 p.1 | rank 2 | a12 p.3 | 23.4115 | HIT ✅ |
+| Q12 | fact | a02 p.1 | rank 1 | a02 p.1 | 31.3233 | HIT ✅ |
+| Q13 | fact | p07 p.1 | rank 3 | p07 p.10 | 37.8177 | HIT ✅ |
+| Q14 | fact | a14 p.1 | rank 3 | a14 p.4 | 16.1651 | HIT ✅ |
+| Q15 | fact | a16 p.2 | rank 1 | a16 p.2 | 41.6959 | HIT ✅ |
+| Q16 | fact | a04 p.1 | rank 4 | a04 p.4 | 14.0811 | HIT@5 |
+| Q17 | fact | a17 p.1 | MISS | a17 p.6 | 14.5783 | MISS ❌ |
+| Q18 | fact | a18 p.3 | rank 2 | a18 p.2 | 15.9337 | HIT ✅ |
+| Q19 | fact | p01 p.5 | rank 1 | p01 p.5 | 17.0126 | HIT ✅ |
+| Q20 | fact | p02 p.1 | rank 1 | p02 p.1 | 23.1264 | HIT ✅ |
+| Q21 | fact | p03 p.6 | MISS | p03 p.2 | 35.6175 | MISS ❌ |
+| Q22 | fact | p04 p.3 | rank 2 | p04 p.1 | 32.0188 | HIT ✅ |
+| Q23 | fact | p05 p.1 | rank 2 | p06 p.2 | 23.6916 | HIT ✅ |
+| Q24 | fact | p08 p.8 | rank 4 | p08 p.9 | 22.4676 | HIT@5 |
+| Q25 | cross | a07 p.5, a08 p.6, a09 p.1 | rank 3 | a09 p.2 | 23.2024 | HIT ✅ |
+| Q26 | cross | p05 p.1, p06 p.2 | rank 1 | p05 p.1 | 17.8633 | HIT ✅ |
+| Q27 | cross | a01 p.1, a10 p.8, a15 p.1 | rank 1 | a01 p.1 | 13.3325 | HIT ✅ |
+| Q28 | negative | —（负题） | — | p02 p.2 | 13.5141 | REFUSED ✅ |
+| Q29 | negative | —（负题） | — | a13 p.14 | 8.8233 | REFUSED ✅ |
+| Q30 | negative | —（负题） | — | p03 p.5 | 13.6002 | REFUSED ✅ |

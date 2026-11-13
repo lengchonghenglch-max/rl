@@ -1,0 +1,2016 @@
+{
+  "summary": {
+    "questions": 30,
+    "positives": 27,
+    "negatives": 3,
+    "recall@1": 0.4815,
+    "recall@3": 0.7407,
+    "recall@5": 0.8148,
+    "mrr@5": 0.6111,
+    "page_acc@1": 0.4815,
+    "doc_acc@1": 0.963,
+    "doc_recall@5": 1.0,
+    "refusal_acc": 1.0,
+    "refusal_threshold": 14.0811,
+    "positive_top1_score_min": 13.3325,
+    "positive_top1_score_median": 23.4115,
+    "negative_top1_scores": [
+      13.5141,
+      8.8233,
+      13.6002
+    ],
+    "by_type": {
+      "cross": {
+        "n": 3,
+        "recall@5": 1.0,
+        "page_acc@1": 0.6667
+      },
+      "fact": {
+        "n": 24,
+        "recall@5": 0.7917,
+        "page_acc@1": 0.4583
+      }
+    },
+    "by_module": {
+      "acquisition": {
+        "n": 2,
+        "recall@5": 1.0,
+        "page_acc@1": 0.5
+      },
+      "background": {
+        "n": 7,
+        "recall@5": 0.8571,
+        "page_acc@1": 0.4286
+      },
+      "constraint": {
+        "n": 5,
+        "recall@5": 0.8,
+        "page_acc@1": 0.6
+      },
+      "gp": {
+        "n": 4,
+        "recall@5": 0.75,
+        "page_acc@1": 0.75
+      },
+      "metrics": {
+        "n": 3,
+        "recall@5": 1.0,
+        "page_acc@1": 0.3333
+      },
+      "sampling": {
+        "n": 3,
+        "recall@5": 0.6667,
+        "page_acc@1": 0.6667
+      },
+      "tooling": {
+        "n": 3,
+        "recall@5": 0.6667,
+        "page_acc@1": 0.0
+      }
+    }
+  },
+  "results": [
+    {
+      "id": "Q01",
+      "type": "fact",
+      "module": "sampling",
+      "question": "What does the 'LHS in LHS' expansion algorithm enable when adding samples to an existing LHS design?",
+      "expected": [
+        [
+          "a05",
+          1
+        ]
+      ],
+      "hits": [
+        {
+          "rank": 1,
+          "doc_id": "a05",
+          "page": 1,
+          "chunk_id": "a05-1-1",
+          "score": 23.403,
+          "text": "Abstract\nLatin Hypercube Sampling (LHS) is a prominent tool in simulation design, with a variety of applications in high-dimensional\nand computationally expensive problems. LHS all"
+        },
+        {
+          "rank": 2,
+          "doc_id": "a05",
+          "page": 5,
+          "chunk_id": "a05-5-44",
+          "score": 21.8522,
+          "text": "4. Impact\nLHS plays a major role in simulation design, as evidenced\nby the vast literature on the topic (for a review see Ref. [4]).\nThe additional flexibility provided by our expa"
+        },
+        {
+          "rank": 3,
+          "doc_id": "a05",
+          "page": 2,
+          "chunk_id": "a05-2-11",
+          "score": 21.1846,
+          "text": "w\nshould these M additional simulations be integrated into the initial LHS-distributed set of N simulations so that the combined\nset of N + M samples still retains desirable space-"
+        },
+        {
+          "rank": 4,
+          "doc_id": "a05",
+          "page": 7,
+          "chunk_id": "a05-7-54",
+          "score": 18.8038,
+          "text": "t [×10−4s]\n\nFigure 5: Computational performance of the “LHS in LHS” expansion algorithm. The left panel shows computational times for different expansion sizes M of\nan initial LHS "
+        },
+        {
+          "rank": 5,
+          "doc_id": "a05",
+          "page": 5,
+          "chunk_id": "a05-5-45",
+          "score": 17.7557,
+          "text": "4. Impact\ndistribution for new training samples while preserving existing information. A study on this topic is presented\nin Ref. [26]. To this end, expanded LHS might complement\nt"
+        }
+      ],
+      "first_rank": 1,
+      "hit@1": true,
+      "hit@3": true,
+      "hit@5": true,
+      "mrr": 1.0,
+      "page_acc@1": true,
+      "doc_acc@1": true,
+      "doc_hit@5": true,
+      "top1_doc_id": "a05",
+      "top1_page": 1,
+      "top1_score": 23.403
+    },
+    {
+      "id": "Q02",
+      "type": "fact",
+      "module": "sampling",
+      "question": "In the generalization of Latin hypercube sampling, which two designs are the extremes of the partially stratified sample (PSS) spectrum?",
+      "expected": [
+        [
+          "a06",
+          1
+        ]
+      ],
+      "hits": [
+        {
+          "rank": 1,
+          "doc_id": "a06",
+          "page": 1,
+          "chunk_id": "a06-1-1",
+          "score": 41.9658,
+          "text": "Abstract\nLatin hypercube sampling (LHS) is generalized in terms of a spectrum of stratiﬁed sampling (SS) designs referred to as partially stratiﬁed sample (PSS) designs. True SS an"
+        },
+        {
+          "rank": 2,
+          "doc_id": "a06",
+          "page": 27,
+          "chunk_id": "a06-27-116",
+          "score": 38.5432,
+          "text": "8. Conclusions\nIn this work, the Latin hypercube sampling method of [1] has been generalized by deﬁning a\n\nspectrum of stratiﬁed sampling methods of which true stratiﬁed sampling a"
+        },
+        {
+          "rank": 3,
+          "doc_id": "a06",
+          "page": 5,
+          "chunk_id": "a06-5-22",
+          "score": 32.3832,
+          "text": "h(·) having ﬁnite second moment when n >> N. Moreover, Stein showed that LHS reduces variance by eﬀectively ﬁltering the main eﬀects of the transformation such that the stronger th"
+        },
+        {
+          "rank": 4,
+          "doc_id": "a06",
+          "page": 3,
+          "chunk_id": "a06-3-13",
+          "score": 28.0687,
+          "text": "2.1. Simple Random Sampling\nClassical Monte Carlo methods rely on so-called Simple Random Sampling (SRS) or Monte Carlo\n\nSampling in which realizations of the vector x (samples) ar"
+        },
+        {
+          "rank": 5,
+          "doc_id": "a06",
+          "page": 2,
+          "chunk_id": "a06-2-10",
+          "score": 26.2887,
+          "text": "through random pairings.\n\nIn this work, the intermediate space on the spectrum of stratiﬁed sampling methods is explored\n\nsuch that stratiﬁcation can occur on any set of Ni-dimensi"
+        }
+      ],
+      "first_rank": 1,
+      "hit@1": true,
+      "hit@3": true,
+      "hit@5": true,
+      "mrr": 1.0,
+      "page_acc@1": true,
+      "doc_acc@1": true,
+      "doc_hit@5": true,
+      "top1_doc_id": "a06",
+      "top1_page": 1,
+      "top1_score": 41.9658
+    },
+    {
+      "id": "Q03",
+      "type": "fact",
+      "module": "sampling",
+      "question": "What computational-complexity improvement do the proposed lattice-based Latin hypercube designs claim?",
+      "expected": [
+        [
+          "a03",
+          27
+        ]
+      ],
+      "hits": [
+        {
+          "rank": 1,
+          "doc_id": "a03",
+          "page": 1,
+          "chunk_id": "a03-1-2",
+          "score": 21.1195,
+          "text": "ith enhanced space-ﬁlling properties\nsuch as high separation distance, low discrepancy, and high separation distance on\nprojections. These designs show promising performance in unc"
+        },
+        {
+          "rank": 2,
+          "doc_id": "a03",
+          "page": 4,
+          "chunk_id": "a03-4-15",
+          "score": 20.9688,
+          "text": "n points covering the input\n\nspace. Consequently, designs that minimize numerical integration error are ideal for train-\n\ning PINNs (Wu et al., 2023). In particular, Matsubara and "
+        },
+        {
+          "rank": 3,
+          "doc_id": "a03",
+          "page": 1,
+          "chunk_id": "a03-1-0",
+          "score": 15.6218,
+          "text": "arXiv:2506.04582v1 [stat.ME] 5 Jun 2025\n\nOptimized and regularly repeated\nlattice-based Latin hypercube designs for\n\nJunpeng Gong\nSchool of Mathematical Sciences, University of Chi"
+        },
+        {
+          "rank": 4,
+          "doc_id": "a06",
+          "page": 27,
+          "chunk_id": "a06-27-116",
+          "score": 15.5578,
+          "text": "8. Conclusions\nIn this work, the Latin hypercube sampling method of [1] has been generalized by deﬁning a\n\nspectrum of stratiﬁed sampling methods of which true stratiﬁed sampling a"
+        },
+        {
+          "rank": 5,
+          "doc_id": "a03",
+          "page": 4,
+          "chunk_id": "a03-4-16",
+          "score": 14.6156,
+          "text": "2023) across two PINN problems.\n\nOur second major contribution is the proposal of a new type of design, termed regularly\n\nrepeated lattice-based Latin hypercube designs (RLHD), and"
+        }
+      ],
+      "first_rank": null,
+      "hit@1": false,
+      "hit@3": false,
+      "hit@5": false,
+      "mrr": 0.0,
+      "page_acc@1": false,
+      "doc_acc@1": true,
+      "doc_hit@5": true,
+      "top1_doc_id": "a03",
+      "top1_page": 1,
+      "top1_score": 21.1195
+    },
+    {
+      "id": "Q04",
+      "type": "fact",
+      "module": "constraint",
+      "question": "What does the paper report about using the deterministic global solver MAiNGO to optimize the acquisition function?",
+      "expected": [
+        [
+          "a13",
+          11
+        ]
+      ],
+      "hits": [
+        {
+          "rank": 1,
+          "doc_id": "a13",
+          "page": 19,
+          "chunk_id": "a13-19-160",
+          "score": 29.3634,
+          "text": "g a global deterministic solver, and the results are not satisfactory,\nit indicates that the objective (acquisition function) may be flawed. BO using MAiNGO excels\nwhen the acquisi"
+        },
+        {
+          "rank": 2,
+          "doc_id": "a13",
+          "page": 7,
+          "chunk_id": "a13-7-58",
+          "score": 28.5464,
+          "text": "o avoid local minima, though it\ndoes not guarantee that convergence to a global minimum will be achieved in finite time.\n\n4.2.3\nDeterministic Global Solver (MAiNGO) We employ our o"
+        },
+        {
+          "rank": 3,
+          "doc_id": "a13",
+          "page": 19,
+          "chunk_id": "a13-19-159",
+          "score": 25.793,
+          "text": "n functions.\nOur statistical analysis on our baseline case study indicates that initial dataset selection is at\nleast as important as solver choice with regard to the probability o"
+        },
+        {
+          "rank": 4,
+          "doc_id": "a13",
+          "page": 20,
+          "chunk_id": "a13-20-163",
+          "score": 24.3915,
+          "text": "• If the goal is to find any local minimum of the black-box function, consider pairing\nan exploitative acquisition function with a deterministic global solver, even in the\nabsence "
+        },
+        {
+          "rank": 5,
+          "doc_id": "a13",
+          "page": 1,
+          "chunk_id": "a13-1-5",
+          "score": 23.9216,
+          "text": "the surrogate model.\nThe initial surrogate model determines the next best\n\nin Bayesian Optimization: To Do or Not To Do?\n\nBayesian Optimization (BO) with Gaussian Processes relies "
+        }
+      ],
+      "first_rank": null,
+      "hit@1": false,
+      "hit@3": false,
+      "hit@5": false,
+      "mrr": 0.0,
+      "page_acc@1": false,
+      "doc_acc@1": true,
+      "doc_hit@5": true,
+      "top1_doc_id": "a13",
+      "top1_page": 19,
+      "top1_score": 29.3634
+    },
+    {
+      "id": "Q05",
+      "type": "fact",
+      "module": "constraint",
+      "question": "On which physics test problem does SCBO outperform all baselines?",
+      "expected": [
+        [
+          "a07",
+          5
+        ]
+      ],
+      "hits": [
+        {
+          "rank": 1,
+          "doc_id": "a07",
+          "page": 5,
+          "chunk_id": "a07-5-43",
+          "score": 26.0719,
+          "text": "e performances of the baselines under\nthese transformations and show that SCBO performs\nbest.\n\n4.1\nPhysics Test Problems\n\nWe evaluate the algorithms on a variety of physics problem"
+        },
+        {
+          "rank": 2,
+          "doc_id": "a07",
+          "page": 5,
+          "chunk_id": "a07-5-44",
+          "score": 24.1114,
+          "text": "orithms on a variety of physics problems. We use a budget of 100 evaluations, batch\n\nDavid Eriksson1, Matthias Poloczek1\n\nsize q = 1, and 10 initial points. Fig. 2 summarizes\nthe r"
+        },
+        {
+          "rank": 3,
+          "doc_id": "a07",
+          "page": 5,
+          "chunk_id": "a07-5-42",
+          "score": 21.3349,
+          "text": "t\nany feasible solution is preferable over an infeasible one\nand thus assign a default value to infeasible solutions\nthat is set to the largest found objective value for the\nrespec"
+        },
+        {
+          "rank": 4,
+          "doc_id": "a09",
+          "page": 6,
+          "chunk_id": "a09-6-58",
+          "score": 13.4815,
+          "text": "6.1. Baselines and Experimental Setup\nible starting point and a connected feasible region—assumptions that are frequently violated in the scenarios we target.\n\nInitialization and P"
+        },
+        {
+          "rank": 5,
+          "doc_id": "a07",
+          "page": 5,
+          "chunk_id": "a07-5-48",
+          "score": 12.1923,
+          "text": "PESC performs well, but is computationally costly: a run with PESC took 3 hours, while\nthe other methods ran in minutes.\n\n4.3\nThe 30D Keane Bump Function The Keane bump function is"
+        }
+      ],
+      "first_rank": 1,
+      "hit@1": true,
+      "hit@3": true,
+      "hit@5": true,
+      "mrr": 1.0,
+      "page_acc@1": true,
+      "doc_acc@1": true,
+      "doc_hit@5": true,
+      "top1_doc_id": "a07",
+      "top1_page": 5,
+      "top1_score": 26.0719
+    },
+    {
+      "id": "Q06",
+      "type": "fact",
+      "module": "constraint",
+      "question": "In the constrained BO paper for automatic chemical design, what fraction of latent points decoded by constrained BO produce drug-like molecules?",
+      "expected": [
+        [
+          "a08",
+          6
+        ]
+      ],
+      "hits": [
+        {
+          "rank": 1,
+          "doc_id": "a08",
+          "page": 6,
+          "chunk_id": "a08-6-40",
+          "score": 31.8358,
+          "text": "ained Bayesian optimization\n(baseline) [Gómez-Bombarelli et al., 2018] is compared in Figure 4. The results show that greater than 80% of the latent points decoded by constrained B"
+        },
+        {
+          "rank": 2,
+          "doc_id": "a08",
+          "page": 1,
+          "chunk_id": "a08-1-5",
+          "score": 31.1262,
+          "text": "Introduction\n both drug [Pyzer-Knapp et al.,\n\nPreprint. Work in progress.\n\nRyan-Rhys Grifﬁths\nUniversity of Cambridge rrg27@cam.ac.uk\n\nAutomatic Chemical Design is a framework for "
+        },
+        {
+          "rank": 3,
+          "doc_id": "a08",
+          "page": 6,
+          "chunk_id": "a08-6-37",
+          "score": 27.9534,
+          "text": "Figure 4: a) The percentage of latent points decoded to drug-like molecules. The results are from 20\niterations of Bayesian optimization with batches of 50 data points collected at"
+        },
+        {
+          "rank": 4,
+          "doc_id": "a08",
+          "page": 5,
+          "chunk_id": "a08-5-29",
+          "score": 26.5686,
+          "text": "(a) % Valid Molecules\n(b) % Methane Molecules\n(c) % Drug-like Molecules\n\nFigure 3: Experiments on 5 disjoint sets comprising 50 latent points each. Very small (VS) Noise are\ntraini"
+        },
+        {
+          "rank": 5,
+          "doc_id": "a08",
+          "page": 2,
+          "chunk_id": "a08-2-10",
+          "score": 25.6569,
+          "text": "cules\nthat maximize a design metric. Although a strong proof of concept, Automatic Chemical Design possesses a deﬁciency in so far as it\nfails to generate a high proportion of vali"
+        }
+      ],
+      "first_rank": 1,
+      "hit@1": true,
+      "hit@3": true,
+      "hit@5": true,
+      "mrr": 1.0,
+      "page_acc@1": true,
+      "doc_acc@1": true,
+      "doc_hit@5": true,
+      "top1_doc_id": "a08",
+      "top1_page": 6,
+      "top1_score": 31.8358
+    },
+    {
+      "id": "Q07",
+      "type": "fact",
+      "module": "constraint",
+      "question": "What high-dimensional challenge does Local Constrained Bayesian Optimization (LCBO) target?",
+      "expected": [
+        [
+          "a09",
+          1
+        ]
+      ],
+      "hits": [
+        {
+          "rank": 1,
+          "doc_id": "a09",
+          "page": 1,
+          "chunk_id": "a09-1-3",
+          "score": 30.7564,
+          "text": "1. Introduction\n43 rd International Conference on Machine\nLearning, Seoul, South Korea. PMLR 306, 2026. Copyright 2026\nby the author(s).\n\nBayesian optimization (BO) for high-dimens"
+        },
+        {
+          "rank": 2,
+          "doc_id": "a09",
+          "page": 2,
+          "chunk_id": "a09-2-10",
+          "score": 25.0889,
+          "text": "evidence from the truss design task. Consequently, there is\na notable scarcity of methods that can navigate these constrained landscapes effectively. More critically, existing\nhigh"
+        },
+        {
+          "rank": 3,
+          "doc_id": "a09",
+          "page": 1,
+          "chunk_id": "a09-1-4",
+          "score": 21.9393,
+          "text": "1. Introduction\nid local descent and\nuncertainty-driven exploration. Theoretically, we\nprove that LCBO achieves a convergence rate for\nthe Karush-Kuhn-Tucker (KKT) residual that de"
+        },
+        {
+          "rank": 4,
+          "doc_id": "a09",
+          "page": 7,
+          "chunk_id": "a09-7-65",
+          "score": 20.4737,
+          "text": "6.2. Synthetic Benchmarks\ning significantly lower objective values in\nthe early stages of optimization compared to what other\nmethods reach even after 1000 iterations. While the pe"
+        },
+        {
+          "rank": 5,
+          "doc_id": "a09",
+          "page": 7,
+          "chunk_id": "a09-7-68",
+          "score": 18.331,
+          "text": "6.3. Real-world Benchmarks\nign task (d = 25) highlight the critical advantage of our approach in boundary-\n\nLocal Constrained Bayesian Optimization\n\n7 constrained settings. Since t"
+        }
+      ],
+      "first_rank": 1,
+      "hit@1": true,
+      "hit@3": true,
+      "hit@5": true,
+      "mrr": 1.0,
+      "page_acc@1": true,
+      "doc_acc@1": true,
+      "doc_hit@5": true,
+      "top1_doc_id": "a09",
+      "top1_page": 1,
+      "top1_score": 30.7564
+    },
+    {
+      "id": "Q08",
+      "type": "fact",
+      "module": "gp",
+      "question": "What does 'manipulating factors' mean in the GP surrogate model for carbon nanotube growth experiments?",
+      "expected": [
+        [
+          "a01",
+          1
+        ]
+      ],
+      "hits": [
+        {
+          "rank": 1,
+          "doc_id": "a01",
+          "page": 1,
+          "chunk_id": "a01-1-5",
+          "score": 40.3152,
+          "text": "ntrol precision is not very high, so the input factor values\nvary signiﬁcantly even under the same setting of the corresponding manipulating factors. The case is observed in our ma"
+        },
+        {
+          "rank": 2,
+          "doc_id": "a01",
+          "page": 13,
+          "chunk_id": "a01-13-80",
+          "score": 39.9743,
+          "text": "ocess model that relates the temperature\nand the six factors to the growth rate does not help in predicting a future experiment, because\nthe temperature for the future experiment i"
+        },
+        {
+          "rank": 3,
+          "doc_id": "a01",
+          "page": 1,
+          "chunk_id": "a01-1-0",
+          "score": 35.9293,
+          "text": "arXiv:1911.00955v2 [stat.ME] 9 May 2020\n\nSubmitted to the Annals of Applied Statistics\n\nGAUSSIAN PROCESS SURROGATE MODELING WITH MANIPULATING\n\nFACTORS FOR CARBON NANOTUBE GROWTH EX"
+        },
+        {
+          "rank": 4,
+          "doc_id": "a01",
+          "page": 1,
+          "chunk_id": "a01-1-1",
+          "score": 33.6629,
+          "text": "NG\n\nFACTORS FOR CARBON NANOTUBE GROWTH EXPERIMENTS\n\nBY CHIWOO PARK1,* , RAHUL RAO3 , PAVEL NIKOLAEV2 AND BENJI MARUYAMA3\n\n1. Introduction.\nCarbon nanotubes are promising for many p"
+        },
+        {
+          "rank": 5,
+          "doc_id": "a01",
+          "page": 16,
+          "chunk_id": "a01-16-100",
+          "score": 32.8666,
+          "text": "an process surrogate that directly relates the manipulating factors to the experimental outcome would not provide a great predictive power on the outcome.\nTo address this challenge"
+        }
+      ],
+      "first_rank": 1,
+      "hit@1": true,
+      "hit@3": true,
+      "hit@5": true,
+      "mrr": 1.0,
+      "page_acc@1": true,
+      "doc_acc@1": true,
+      "doc_hit@5": true,
+      "top1_doc_id": "a01",
+      "top1_page": 1,
+      "top1_score": 40.3152
+    },
+    {
+      "id": "Q09",
+      "type": "fact",
+      "module": "gp",
+      "question": "What mean mismatch does the GP waveform surrogate achieve in its in-sample tests?",
+      "expected": [
+        [
+          "a10",
+          8
+        ]
+      ],
+      "hits": [
+        {
+          "rank": 1,
+          "doc_id": "a10",
+          "page": 8,
+          "chunk_id": "a10-8-62",
+          "score": 27.7163,
+          "text": "\n\nB.\nOut-of-sample tests\n\n40 35 30 25 20 15 10 5 0\n\n10−4\n10−3\n10−2\n10−1\n100\n\nIMR|GP\nIMR|NR\nSEO|GP\nSEO|NR\nNR|GP\n\nMismatch\n\nsponding to the omitted waveform, in order to compute\na pr"
+        },
+        {
+          "rank": 2,
+          "doc_id": "a10",
+          "page": 8,
+          "chunk_id": "a10-8-59",
+          "score": 22.958,
+          "text": "the corresponding\nwaveforms from the SEOBNRv3 and IMRPhenomPv2 models are plotted as ﬁlled red and blue histograms respectively.\n\nthe vast majority of the model outputs and the tra"
+        },
+        {
+          "rank": 3,
+          "doc_id": "a10",
+          "page": 7,
+          "chunk_id": "a10-7-55",
+          "score": 22.9136,
+          "text": "ditional points are displayed on the plot corresponding to the waveform samples shown in the later ﬁgures of this paper.\n\nthe model’s ability to reproduce its own training data.\nFo"
+        },
+        {
+          "rank": 4,
+          "doc_id": "a10",
+          "page": 9,
+          "chunk_id": "a10-9-67",
+          "score": 21.4532,
+          "text": "oduced by the GPR\nmodel and each phenomenological model is indicated by\na solid line; it is noteworthy that this mismatch is always\nsmaller than the mean of the mismatches between "
+        },
+        {
+          "rank": 5,
+          "doc_id": "a10",
+          "page": 8,
+          "chunk_id": "a10-8-64",
+          "score": 18.796,
+          "text": "hich are of low conﬁdence, and which should not be\nrelied upon in an analysis.\n\nC.\nTests against phenomenological models\n\nIt may also be helpful to understand how the outputs\nof th"
+        }
+      ],
+      "first_rank": 1,
+      "hit@1": true,
+      "hit@3": true,
+      "hit@5": true,
+      "mrr": 1.0,
+      "page_acc@1": true,
+      "doc_acc@1": true,
+      "doc_hit@5": true,
+      "top1_doc_id": "a10",
+      "top1_page": 8,
+      "top1_score": 27.7163
+    },
+    {
+      "id": "Q10",
+      "type": "fact",
+      "module": "gp",
+      "question": "What does the constrained GP emulator guarantee about inequality constraints?",
+      "expected": [
+        [
+          "a15",
+          27
+        ]
+      ],
+      "hits": [
+        {
+          "rank": 1,
+          "doc_id": "a15",
+          "page": 2,
+          "chunk_id": "a15-2-7",
+          "score": 18.4451,
+          "text": "2\nHassan Maatouk, Xavier Bay\n\nof the GP that uncertainty can be quantiﬁed. Furthermore, it has several nice\nproperties. For example, the conditional GP at observation data (linear "
+        },
+        {
+          "rank": 2,
+          "doc_id": "a15",
+          "page": 2,
+          "chunk_id": "a15-2-10",
+          "score": 17.1518,
+          "text": " on an approach similar to [32] placing the derivatives information at\nspeciﬁed input locations, by forcing the derivative process to be positive at these\npoints. In such methodolo"
+        },
+        {
+          "rank": 3,
+          "doc_id": "a15",
+          "page": 17,
+          "chunk_id": "a15-17-78",
+          "score": 15.8433,
+          "text": "it does not depend on the simulation\nbut on the length hyper-parameters of the covariance function θ = (θ1, . . . , θd).\n\nRemark 4 The inequality mode or MAP (Maximum A Posteriori)"
+        },
+        {
+          "rank": 4,
+          "doc_id": "a15",
+          "page": 1,
+          "chunk_id": "a15-1-3",
+          "score": 14.9092,
+          "text": "dimensions are given. A simulation study to investigate the eﬃciency of the\nmethod in terms of prediction and uncertainty quantiﬁcation is included. Keywords Gaussian process emula"
+        },
+        {
+          "rank": 5,
+          "doc_id": "a15",
+          "page": 2,
+          "chunk_id": "a15-2-8",
+          "score": 14.5353,
+          "text": "re diﬃcult.\nThe reason is that the resulting conditional process is not a GP. In the literature of interpolation with inequality constraints, we ﬁnd two types\nof methods. The ﬁrst "
+        }
+      ],
+      "first_rank": null,
+      "hit@1": false,
+      "hit@3": false,
+      "hit@5": false,
+      "mrr": 0.0,
+      "page_acc@1": false,
+      "doc_acc@1": true,
+      "doc_hit@5": true,
+      "top1_doc_id": "a15",
+      "top1_page": 2,
+      "top1_score": 18.4451
+    },
+    {
+      "id": "Q11",
+      "type": "fact",
+      "module": "acquisition",
+      "question": "What does the consequential improvement (CI) acquisition function allow to be selected simultaneously?",
+      "expected": [
+        [
+          "a12",
+          1
+        ]
+      ],
+      "hits": [
+        {
+          "rank": 1,
+          "doc_id": "a12",
+          "page": 3,
+          "chunk_id": "a12-3-17",
+          "score": 23.4115,
+          "text": "ast, the proposed CI acquisition\nfunction incorporates the hidden cost of validation when LF samples are selected,\nsince the actual improvement can only be proven through HF evalua"
+        },
+        {
+          "rank": 2,
+          "doc_id": "a12",
+          "page": 1,
+          "chunk_id": "a12-1-2",
+          "score": 22.4598,
+          "text": "Abstract\nproposed\nto allow for the simultaneous selection of the solution and the ﬁdelity level in problems\nwith a known hierarchy of ﬁdelity levels. The new CI acquisition functio"
+        },
+        {
+          "rank": 3,
+          "doc_id": "a12",
+          "page": 14,
+          "chunk_id": "a12-14-81",
+          "score": 22.31,
+          "text": "3.2.4 Proposed CI acquisition function\ntial LF selection,\nthe value of the proposed CI acquisition function is the quotient of the anticipated\nimprovement and evaluation cost for b"
+        },
+        {
+          "rank": 4,
+          "doc_id": "a12",
+          "page": 14,
+          "chunk_id": "a12-14-80",
+          "score": 22.1356,
+          "text": "3.2.4 Proposed CI acquisition function\nInstead of the above two options in 3.2.3, the proposed CI acquisition function is.\n\nWith the CI acquisition function, the subsequent iterati"
+        },
+        {
+          "rank": 5,
+          "doc_id": "a12",
+          "page": 14,
+          "chunk_id": "a12-14-82",
+          "score": 21.9359,
+          "text": "3.2.4 Proposed CI acquisition function\nd consequential improvement are calculated\ndirectly based on the current iteration. In contrast, for sample B at a LF level, there is\nno impr"
+        }
+      ],
+      "first_rank": 2,
+      "hit@1": false,
+      "hit@3": true,
+      "hit@5": true,
+      "mrr": 0.5,
+      "page_acc@1": false,
+      "doc_acc@1": true,
+      "doc_hit@5": true,
+      "top1_doc_id": "a12",
+      "top1_page": 3,
+      "top1_score": 23.4115
+    },
+    {
+      "id": "Q12",
+      "type": "fact",
+      "module": "acquisition",
+      "question": "What does the paper on composition of kernel and acquisition functions say has received less attention in high-dimensional BO?",
+      "expected": [
+        [
+          "a02",
+          1
+        ]
+      ],
+      "hits": [
+        {
+          "rank": 1,
+          "doc_id": "a02",
+          "page": 1,
+          "chunk_id": "a02-1-4",
+          "score": 31.3233,
+          "text": ", Bayesian Optimization does not scale well with the dimensions of the problem. The optimization of\nthe acquisition function has received less attention because its computational c"
+        },
+        {
+          "rank": 2,
+          "doc_id": "a13",
+          "page": 2,
+          "chunk_id": "a13-2-14",
+          "score": 17.5016,
+          "text": "oidance of local minima.3 Among the deterministic global methods used in BO frameworks,\nDIRECT [28] is the most widely used. Still, its use in BO has been limited [38], and its ado"
+        },
+        {
+          "rank": 3,
+          "doc_id": "a02",
+          "page": 1,
+          "chunk_id": "a02-1-0",
+          "score": 17.1517,
+          "text": "Accepted to LION 14 - The 14th Learning and Intelligent OptimizatioN Conference Composition of kernel and acquisition functions for High\n\nAntonio Candelieri1[0000-0003-1431-576X], "
+        },
+        {
+          "rank": 4,
+          "doc_id": "a02",
+          "page": 2,
+          "chunk_id": "a02-2-9",
+          "score": 15.3348,
+          "text": " of features, while allowing a reduction in the complexity of the kernel matrix inversion. In this paper we focus on a strategy which leverages additionality of the objective\nfunct"
+        },
+        {
+          "rank": 5,
+          "doc_id": "a02",
+          "page": 1,
+          "chunk_id": "a02-1-1",
+          "score": 13.2575,
+          "text": "stems and Communication, University of Milano-Bicocca, 20126, Milan, Italy\nantonio.candelieri@unimib.it\n\n1\nIntroduction:\n\nBayesian Optimization (BO) [1,2] has become the reference "
+        }
+      ],
+      "first_rank": 1,
+      "hit@1": true,
+      "hit@3": true,
+      "hit@5": true,
+      "mrr": 1.0,
+      "page_acc@1": true,
+      "doc_acc@1": true,
+      "doc_hit@5": true,
+      "top1_doc_id": "a02",
+      "top1_page": 1,
+      "top1_score": 31.3233
+    },
+    {
+      "id": "Q13",
+      "type": "fact",
+      "module": "metrics",
+      "question": "What passband insertion loss and stopband range are measured for the DGS low-pass filter?",
+      "expected": [
+        [
+          "p07",
+          1
+        ]
+      ],
+      "hits": [
+        {
+          "rank": 1,
+          "doc_id": "p07",
+          "page": 10,
+          "chunk_id": "p07-10-43",
+          "score": 37.8177,
+          "text": "6. Measurement and Performance Comparison\narameters using the MS 4644B VNA.\n\nFigure 13. Simulated and measured S-parameters of the fabricated quasi-eight DGS LPF.\n\nFrom Figure 13, "
+        },
+        {
+          "rank": 2,
+          "doc_id": "p07",
+          "page": 2,
+          "chunk_id": "p07-2-10",
+          "score": 32.5665,
+          "text": "lemented on an FR4 substrate with a thickness of 1.6 mm and a relative\npermittivity of 3.38, ensuring low-cost fabrication and compatibility with standard printed\ncircuit board (PC"
+        },
+        {
+          "rank": 3,
+          "doc_id": "p07",
+          "page": 1,
+          "chunk_id": "p07-1-3",
+          "score": 31.4649,
+          "text": "Abstract\nansformed into a low-pass filtering configuration with improved passband characteristics. Subsequently, a higher-order topology\ncomposed of two identical quasi-eight DGS u"
+        },
+        {
+          "rank": 4,
+          "doc_id": "p07",
+          "page": 1,
+          "chunk_id": "p07-1-6",
+          "score": 24.4958,
+          "text": "1. Introduction\nof\ncompact and high-performance microwave components, particularly in filter design [2–6].\nIn low-pass filters (LPFs), the incorporation of DGS enables sharper roll"
+        },
+        {
+          "rank": 5,
+          "doc_id": "p07",
+          "page": 2,
+          "chunk_id": "p07-2-11",
+          "score": 23.3809,
+          "text": "s designed and experimentally validated, with an\ninsertion loss lower than 1 dB in the passband and a wide stopband extending from 2.8 GHz\nto 8.5 GHz, with attenuation exceeding 26"
+        }
+      ],
+      "first_rank": 3,
+      "hit@1": false,
+      "hit@3": true,
+      "hit@5": true,
+      "mrr": 0.3333333333333333,
+      "page_acc@1": false,
+      "doc_acc@1": true,
+      "doc_hit@5": true,
+      "top1_doc_id": "p07",
+      "top1_page": 10,
+      "top1_score": 37.8177
+    },
+    {
+      "id": "Q14",
+      "type": "fact",
+      "module": "metrics",
+      "question": "Over what frequency range is the uncertainty-matrix analysis of S-parameter measurements illustrated?",
+      "expected": [
+        [
+          "a14",
+          1
+        ]
+      ],
+      "hits": [
+        {
+          "rank": 1,
+          "doc_id": "a14",
+          "page": 4,
+          "chunk_id": "a14-4-34",
+          "score": 16.1651,
+          "text": "Figure 1: Magnitude of S11 and S21, derived from the S-parameter\nmeasurements\n\nFigure 2: Magnitude of the vectors (𝑆11R, 𝑆21R) and (𝑆11I, 𝑆21I),\nderived from the S-parameter measur"
+        },
+        {
+          "rank": 2,
+          "doc_id": "p04",
+          "page": 3,
+          "chunk_id": "p04-3-17",
+          "score": 12.9283,
+          "text": "citor.\n\nFigure 1. Plan view and cross-sectional view of stacked MIM capacitor. 2.2. RF Measurement Setup and Calibration\n\nThe structure of the ground signal from the ground pad was"
+        },
+        {
+          "rank": 3,
+          "doc_id": "a14",
+          "page": 1,
+          "chunk_id": "a14-1-1",
+          "score": 12.7818,
+          "text": "a waveguide mismatched line\nsection at frequencies from 75 GHz to 110 GHz. The analysis is\nalso useful when multiple S-parameter measurements are used as\ninput quantities for measu"
+        },
+        {
+          "rank": 4,
+          "doc_id": "a16",
+          "page": 2,
+          "chunk_id": "a16-2-7",
+          "score": 12.7096,
+          "text": "TRL CALIBRATION\n07/08/2019\n\nThe frequency range of a TRL kit depends on the “line” length. The “line” can be used over a frequency\nrange where it is 20 degrees to 160 degrees longe"
+        },
+        {
+          "rank": 5,
+          "doc_id": "a13",
+          "page": 14,
+          "chunk_id": "a13-14-111",
+          "score": 11.5619,
+          "text": "the empirical proportion ˆps ds of convergence over the runs and the datasets in ds. We ask the following\nquestions.\n\n1. Question: If we choose a solver s, and then “arbitrarily ch"
+        }
+      ],
+      "first_rank": 3,
+      "hit@1": false,
+      "hit@3": true,
+      "hit@5": true,
+      "mrr": 0.3333333333333333,
+      "page_acc@1": false,
+      "doc_acc@1": true,
+      "doc_hit@5": true,
+      "top1_doc_id": "a14",
+      "top1_page": 4,
+      "top1_score": 16.1651
+    },
+    {
+      "id": "Q15",
+      "type": "fact",
+      "module": "metrics",
+      "question": "In the TRL calibration example, how much longer is the line delay than the thru delay?",
+      "expected": [
+        [
+          "a16",
+          2
+        ]
+      ],
+      "hits": [
+        {
+          "rank": 1,
+          "doc_id": "a16",
+          "page": 2,
+          "chunk_id": "a16-2-7",
+          "score": 41.6959,
+          "text": "TRL CALIBRATION\n07/08/2019\n\nThe frequency range of a TRL kit depends on the “line” length. The “line” can be used over a frequency\nrange where it is 20 degrees to 160 degrees longe"
+        },
+        {
+          "rank": 2,
+          "doc_id": "a16",
+          "page": 1,
+          "chunk_id": "a16-1-3",
+          "score": 35.5992,
+          "text": "with polynomials are more affordable since every kit with the same\nmechanical design will share the same polynomial set.\n\nBy contrast, TRL calibration is made up of a Thru Line, a "
+        },
+        {
+          "rank": 3,
+          "doc_id": "a16",
+          "page": 2,
+          "chunk_id": "a16-2-9",
+          "score": 31.5666,
+          "text": "13pS) = 261 MHz\n\nand the highest frequency of use is at 160 degrees longer than the thru or:\n\n160/(360*213pS) = 2086 MHz\n\nWhen the line is entered in the calibration kit definition"
+        },
+        {
+          "rank": 4,
+          "doc_id": "a16",
+          "page": 2,
+          "chunk_id": "a16-2-8",
+          "score": 31.411,
+          "text": "fway along the thru. For a larger frequency range, multiple lines may be used with slightly overlapping\nfrequency range.\n\nFor instance, one might have a “thru” of 132 pS delay and "
+        },
+        {
+          "rank": 5,
+          "doc_id": "a16",
+          "page": 3,
+          "chunk_id": "a16-3-10",
+          "score": 22.9668,
+          "text": "TRL CALIBRATION\n07/08/2019\n\n“Line 2” in the above kit definition is entered in this way.\n\nFor a definition with multiple Lines and overlapping ranges, the range of the last measure"
+        }
+      ],
+      "first_rank": 1,
+      "hit@1": true,
+      "hit@3": true,
+      "hit@5": true,
+      "mrr": 1.0,
+      "page_acc@1": true,
+      "doc_acc@1": true,
+      "doc_hit@5": true,
+      "top1_doc_id": "a16",
+      "top1_page": 2,
+      "top1_score": 41.6959
+    },
+    {
+      "id": "Q16",
+      "type": "fact",
+      "module": "tooling",
+      "question": "What frequency range and semiconductor process are used for the TACS-RF agent-designed transmitter?",
+      "expected": [
+        [
+          "a04",
+          1
+        ]
+      ],
+      "hits": [
+        {
+          "rank": 1,
+          "doc_id": "a04",
+          "page": 4,
+          "chunk_id": "a04-4-33",
+          "score": 14.0811,
+          "text": "0.36 W\nrequires an input power of +2.9 dBm at 123 GHz and delivers\n+6.3 dBm at 246 GHz, achieving a conversion gain of +3.4 dB.\n\nB. Final Transmitter Chain Performance The complete"
+        },
+        {
+          "rank": 2,
+          "doc_id": "a04",
+          "page": 3,
+          "chunk_id": "a04-3-19",
+          "score": 13.8607,
+          "text": "Fig. 4. Agent-designed 240–251 GHz transmitter. (a) Complete transmitter schematic in a 90 nm SiGe BiCMOS process. (b) Automated design results for the\nsmall signal inter-stage mat"
+        },
+        {
+          "rank": 3,
+          "doc_id": "a16",
+          "page": 2,
+          "chunk_id": "a16-2-7",
+          "score": 13.0034,
+          "text": "TRL CALIBRATION\n07/08/2019\n\nThe frequency range of a TRL kit depends on the “line” length. The “line” can be used over a frequency\nrange where it is 20 degrees to 160 degrees longe"
+        },
+        {
+          "rank": 4,
+          "doc_id": "a04",
+          "page": 1,
+          "chunk_id": "a04-1-1",
+          "score": 11.9506,
+          "text": "TACS-RF: Tool-driven Agentic Circuit Synthesis of\n\nAbstract—We present the framework of TACS-RF — a Tooldriven Agentic Circuit Synthesis of RF and mmWave modules.\nIn this framework"
+        },
+        {
+          "rank": 5,
+          "doc_id": "a04",
+          "page": 2,
+          "chunk_id": "a04-2-12",
+          "score": 11.5723,
+          "text": "Fig. 2. Design flow of the sub-THz transmitter, demonstrating semi-autonomous design by the LLM agent.\nII. LLM–EDA TOOL INTEGRATION\nThe TACS-RF framework was designed using Enterpr"
+        }
+      ],
+      "first_rank": 4,
+      "hit@1": false,
+      "hit@3": false,
+      "hit@5": true,
+      "mrr": 0.25,
+      "page_acc@1": false,
+      "doc_acc@1": true,
+      "doc_hit@5": true,
+      "top1_doc_id": "a04",
+      "top1_page": 4,
+      "top1_score": 14.0811
+    },
+    {
+      "id": "Q17",
+      "type": "fact",
+      "module": "tooling",
+      "question": "What accuracy gain and token reduction does AutoEDA report?",
+      "expected": [
+        [
+          "a17",
+          1
+        ]
+      ],
+      "hits": [
+        {
+          "rank": 1,
+          "doc_id": "a17",
+          "page": 6,
+          "chunk_id": "a17-6-71",
+          "score": 14.5783,
+          "text": "g CodeBLEU margin across turns\nhighlights AutoEDA preserving Tcl-generation accuracy over long\nconversational sequences.\n\n4.3\nAutoEDA This section illustrates how AutoEDA transform"
+        },
+        {
+          "rank": 2,
+          "doc_id": "a17",
+          "page": 6,
+          "chunk_id": "a17-6-63",
+          "score": 14.2767,
+          "text": "the server’s task decomposition\nand parameter validation mechanisms to guarantee correctness\nacross stages. Compared to Baseline2 (98.902), the gain is modest.\nHowever, Baseline2 d"
+        },
+        {
+          "rank": 3,
+          "doc_id": "a18",
+          "page": 6,
+          "chunk_id": "a18-6-58",
+          "score": 13.8418,
+          "text": "uld be interpreted only together with\nstage completion and final design quality: a low-cost partial run\nmay still obtain a numerically favorable ROI. Benchmarks should\ntherefore jo"
+        },
+        {
+          "rank": 4,
+          "doc_id": "a17",
+          "page": 6,
+          "chunk_id": "a17-6-70",
+          "score": 13.3158,
+          "text": "ccessive prompts requesting parameter adjustments at each turn.\nEach subsequent LLM call received the full conversation history, including all prior user instructions and model res"
+        },
+        {
+          "rank": 5,
+          "doc_id": "a17",
+          "page": 6,
+          "chunk_id": "a17-6-64",
+          "score": 12.5898,
+          "text": "in Table 2, AutoEDA achieves the highest CodeBLEU score (98.901)\nwith only 378 tokens, compared to 2075 tokens for Baseline1 (Code-\nBLEU 9.961) and 12,870 tokens for Baseline2 (Cod"
+        }
+      ],
+      "first_rank": null,
+      "hit@1": false,
+      "hit@3": false,
+      "hit@5": false,
+      "mrr": 0.0,
+      "page_acc@1": false,
+      "doc_acc@1": true,
+      "doc_hit@5": true,
+      "top1_doc_id": "a17",
+      "top1_page": 6,
+      "top1_score": 14.5783
+    },
+    {
+      "id": "Q18",
+      "type": "fact",
+      "module": "tooling",
+      "question": "What are the clock targets in the RTL-to-GDS agent benchmark?",
+      "expected": [
+        [
+          "a18",
+          3
+        ]
+      ],
+      "hits": [
+        {
+          "rank": 1,
+          "doc_id": "a18",
+          "page": 2,
+          "chunk_id": "a18-2-13",
+          "score": 15.9337,
+          "text": "2\nWhy RTL-to-GDS Is a Hard Agent\nEnvironment\n2.1\nLong-Horizon, Multi-Stage Execution The traditional RTL-to-GDS flow is a multi-stage engineering process. Logic synthesis transform"
+        },
+        {
+          "rank": 2,
+          "doc_id": "a18",
+          "page": 3,
+          "chunk_id": "a18-3-30",
+          "score": 14.7839,
+          "text": "res the agent\nto complete logic synthesis, floorplanning and power planning,\nplacement, CTS, routing, physical-aware ECO, and final report generation. The expected outputs include "
+        },
+        {
+          "rank": 3,
+          "doc_id": "a18",
+          "page": 3,
+          "chunk_id": "a18-3-28",
+          "score": 12.2395,
+          "text": "cal implementation, physical-aware ECO, and final deliverable generation while receiving tool feedback after each stage.\n\nRTL-to-GDS should be viewed not as a replacement for RTL g"
+        },
+        {
+          "rank": 4,
+          "doc_id": "a02",
+          "page": 6,
+          "chunk_id": "a02-6-26",
+          "score": 11.8343,
+          "text": "6\n\nhour of the day). By using additivity, we solved 24 problems with dimensionality 4\neach (i.e., 𝑑̅ = 4). Table 1 summarizes the preliminary results obtained on this benchmark stu"
+        },
+        {
+          "rank": 5,
+          "doc_id": "a18",
+          "page": 3,
+          "chunk_id": "a18-3-27",
+          "score": 11.6668,
+          "text": "Can AI Agents Really Complete RTL-to-GDS?\nLessons from Benchmarking Tool-Interactive EDA Workflows\n\nFigure 1: PicoRV32 RTL-to-GDS evaluation flow. The agent must advance a single d"
+        }
+      ],
+      "first_rank": 2,
+      "hit@1": false,
+      "hit@3": true,
+      "hit@5": true,
+      "mrr": 0.5,
+      "page_acc@1": false,
+      "doc_acc@1": true,
+      "doc_hit@5": true,
+      "top1_doc_id": "a18",
+      "top1_page": 2,
+      "top1_score": 15.9337
+    },
+    {
+      "id": "Q19",
+      "type": "fact",
+      "module": "background",
+      "question": "What is the outer diameter of the three six-turn inductors used to test the variable-line-width design?",
+      "expected": [
+        [
+          "p01",
+          5
+        ]
+      ],
+      "hits": [
+        {
+          "rank": 1,
+          "doc_id": "p01",
+          "page": 5,
+          "chunk_id": "p01-5-28",
+          "score": 17.0126,
+          "text": "3. Results and Discussion\nTo examine the improvement achieved by the proposed design technique, three sixturn rectangular spiral inductors with an identical outer diameter of 160 μ"
+        },
+        {
+          "rank": 2,
+          "doc_id": "p01",
+          "page": 5,
+          "chunk_id": "p01-5-31",
+          "score": 15.4427,
+          "text": "3. Results and Discussion\n2, turn pitch Pn = Wn + S. (unit: μm)\n\nn = 1\nn = 2\nn = 3\nn = 4\nn = 5\nn = 6\nline width Wn\n14.70\n11.63\n9.13\n7.08\n5.41\n4.05\n\nTo examine the resistance calcul"
+        },
+        {
+          "rank": 3,
+          "doc_id": "p01",
+          "page": 6,
+          "chunk_id": "p01-6-38",
+          "score": 14.221,
+          "text": "nted variable\nline width design technique, we compare the simulated inductance and Q-factor of the\ntested samples L1, L2, and L3 in Figure 3. It is observed that both L2 and L3, wh"
+        },
+        {
+          "rank": 4,
+          "doc_id": "p05",
+          "page": 7,
+          "chunk_id": "p05-7-33",
+          "score": 12.905,
+          "text": "rasitic\neffects analyzed above. The value of the inductance formed by the outer intertwined metal\nwire is given [34] as:\n\nwhere μ is the magnetic permeability, η is the number of t"
+        },
+        {
+          "rank": 5,
+          "doc_id": "p01",
+          "page": 5,
+          "chunk_id": "p01-5-32",
+          "score": 12.3759,
+          "text": "3. Results and Discussion\nmeter Di = 20,\n\nOuter diameter Do = 160, inner diameter Di = 20,\nline spacing Sn = P − Wn, turn pitch P = 12. (unit: μm)\n\nline spacing S = 2, turn pitch P"
+        }
+      ],
+      "first_rank": 1,
+      "hit@1": true,
+      "hit@3": true,
+      "hit@5": true,
+      "mrr": 1.0,
+      "page_acc@1": true,
+      "doc_acc@1": true,
+      "doc_hit@5": true,
+      "top1_doc_id": "p01",
+      "top1_page": 5,
+      "top1_score": 17.0126
+    },
+    {
+      "id": "Q20",
+      "type": "fact",
+      "module": "background",
+      "question": "How many components do the simple pi-model and the advanced model of GaN-on-Si spiral inductors have?",
+      "expected": [
+        [
+          "p02",
+          1
+        ]
+      ],
+      "hits": [
+        {
+          "rank": 1,
+          "doc_id": "p02",
+          "page": 1,
+          "chunk_id": "p02-1-3",
+          "score": 23.1264,
+          "text": "Abstract\nIn this paper, the accuracy of basic and advanced spiral inductor models for gallium\nnitride (GaN) integrated inductors is evaluated. Speciﬁcally, the experimental\nmeasure"
+        },
+        {
+          "rank": 2,
+          "doc_id": "p02",
+          "page": 6,
+          "chunk_id": "p02-6-29",
+          "score": 20.3895,
+          "text": "3.2. Advanced Lumped Model\nThe lumped model shown in Figure 5b is fully geometrically scalable as the ﬁrst one,\nbut it exploits an advanced topology with thirteen components. Thank"
+        },
+        {
+          "rank": 3,
+          "doc_id": "p02",
+          "page": 12,
+          "chunk_id": "p02-12-57",
+          "score": 19.7399,
+          "text": "5. Conclusions\nThis study proposes and compares a π-based model and an advanced model for\ncircular inductors in 0.5 µm RF GaN-on-Si technology for sub 6-GHz power applications.\nBot"
+        },
+        {
+          "rank": 4,
+          "doc_id": "p02",
+          "page": 4,
+          "chunk_id": "p02-4-21",
+          "score": 17.3559,
+          "text": "modeling in [10]. In the following subsections, geometrically scaled\nequations for lumped components are detailed for both proposed models.\n\nFigure 5. GaN-on-Si inductor models und"
+        },
+        {
+          "rank": 5,
+          "doc_id": "p02",
+          "page": 12,
+          "chunk_id": "p02-12-55",
+          "score": 17.0587,
+          "text": "Electronics 2025, 14, 3079\n12 of 15\n\nSpeciﬁcally, the transmission coeﬃcient, S21, is predicted with lower percentage\nerrors compared to the simple π-model ones, as shown in Figure"
+        }
+      ],
+      "first_rank": 1,
+      "hit@1": true,
+      "hit@3": true,
+      "hit@5": true,
+      "mrr": 1.0,
+      "page_acc@1": true,
+      "doc_acc@1": true,
+      "doc_hit@5": true,
+      "top1_doc_id": "p02",
+      "top1_page": 1,
+      "top1_score": 23.1264
+    },
+    {
+      "id": "Q21",
+      "type": "fact",
+      "module": "background",
+      "question": "How far is the suspended spiral inductor from the silicon substrate in the CMOS-MEMS paper?",
+      "expected": [
+        [
+          "p03",
+          6
+        ]
+      ],
+      "hits": [
+        {
+          "rank": 1,
+          "doc_id": "p03",
+          "page": 2,
+          "chunk_id": "p03-2-8",
+          "score": 35.6175,
+          "text": "o remove silicon substrate for releasing the suspended spiral\ninductor, in which the spiral inductor had a maximum Q-factor of 7. The technique that uses the commercial CMOS proces"
+        },
+        {
+          "rank": 2,
+          "doc_id": "p03",
+          "page": 5,
+          "chunk_id": "p03-5-23",
+          "score": 30.1311,
+          "text": "4. Results and Discussion\nA probe was utilized to scrape the suspended spiral inductor for measuring the etching depth\nbetween the spiral inductor and silicon substrate after the p"
+        },
+        {
+          "rank": 3,
+          "doc_id": "p03",
+          "page": 7,
+          "chunk_id": "p03-7-31",
+          "score": 28.2127,
+          "text": "er CMOS\nprocess and a post-process, and the post-process utilized an RIE dry etching to etch silicon substrate to\nrelease the suspended spiral inductor, in which the maximum Q-fact"
+        },
+        {
+          "rank": 4,
+          "doc_id": "p03",
+          "page": 7,
+          "chunk_id": "p03-7-30",
+          "score": 27.6578,
+          "text": "re, the spiral inductor with the post-process had a Q-factor of 15 at 15 GHz\nand a self-resonance frequency of 25.5 GHz.\n\nPark et al. [6] developed a spiral inductor on a high-resi"
+        },
+        {
+          "rank": 5,
+          "doc_id": "p03",
+          "page": 2,
+          "chunk_id": "p03-2-7",
+          "score": 25.6608,
+          "text": " the conventional CMOS process. The suspended\ninductor was released by a post-process after completion of the CMOS process. The post-process\nemployed a wet etching to etch the sacr"
+        }
+      ],
+      "first_rank": null,
+      "hit@1": false,
+      "hit@3": false,
+      "hit@5": false,
+      "mrr": 0.0,
+      "page_acc@1": false,
+      "doc_acc@1": true,
+      "doc_hit@5": true,
+      "top1_doc_id": "p03",
+      "top1_page": 2,
+      "top1_score": 35.6175
+    },
+    {
+      "id": "Q22",
+      "type": "fact",
+      "module": "background",
+      "question": "What RF measurement range is used for the stacked MIM capacitors?",
+      "expected": [
+        [
+          "p04",
+          3
+        ]
+      ],
+      "hits": [
+        {
+          "rank": 1,
+          "doc_id": "p04",
+          "page": 1,
+          "chunk_id": "p04-1-2",
+          "score": 32.0188,
+          "text": "Abstract\nThis paper describes the radio-frequency (RF) characteristics of stacked metal–insulator–\nmetal (MIM) capacitors used in RF CMOS technology. To ensure accurate analysis, v"
+        },
+        {
+          "rank": 2,
+          "doc_id": "p04",
+          "page": 3,
+          "chunk_id": "p04-3-18",
+          "score": 27.9195,
+          "text": "lues measured using a network analyzer can vary significantly depending on the level of\ncalibration, which necessitates accurate calibration. The RF measurement environment for\nsta"
+        },
+        {
+          "rank": 3,
+          "doc_id": "p04",
+          "page": 2,
+          "chunk_id": "p04-2-10",
+          "score": 26.1167,
+          "text": "the RF\nmodeling of stacked MIM capacitors remains limited. Stacked architectures introduce additional parasitic paths associated with vertically interconnected electrodes and inter"
+        },
+        {
+          "rank": 4,
+          "doc_id": "p04",
+          "page": 10,
+          "chunk_id": "p04-10-51",
+          "score": 24.8004,
+          "text": "4. Conclusions\nIn this study, we sought to identify the problems associated with stacked MIM capacitors and suggest potential solutions by analyzing the RF characteristics of such "
+        },
+        {
+          "rank": 5,
+          "doc_id": "p04",
+          "page": 8,
+          "chunk_id": "p04-8-47",
+          "score": 23.9151,
+          "text": "gnificantly more accurate result was obtained\nwhen the equivalent circuit of the improved RF model was used with respect to RF model\nwas used. Based on the analysis of the extracte"
+        }
+      ],
+      "first_rank": 2,
+      "hit@1": false,
+      "hit@3": true,
+      "hit@5": true,
+      "mrr": 0.5,
+      "page_acc@1": false,
+      "doc_acc@1": true,
+      "doc_hit@5": true,
+      "top1_doc_id": "p04",
+      "top1_page": 1,
+      "top1_score": 32.0188
+    },
+    {
+      "id": "Q23",
+      "type": "fact",
+      "module": "background",
+      "question": "What are the chip dimensions of the GaAs IPD bandpass filter?",
+      "expected": [
+        [
+          "p05",
+          1
+        ]
+      ],
+      "hits": [
+        {
+          "rank": 1,
+          "doc_id": "p06",
+          "page": 2,
+          "chunk_id": "p06-2-8",
+          "score": 23.6916,
+          "text": "Micromachines 2026, 17, 292\n2 of 14\n\nusing IPD technologies generally exhibit fixed operating frequency bands, as tuning elements are not integrated on chip, which limits their fre"
+        },
+        {
+          "rank": 2,
+          "doc_id": "p05",
+          "page": 1,
+          "chunk_id": "p05-1-4",
+          "score": 23.6358,
+          "text": "gwoon-ro, Wolgye-Dong, Nowon-Ku, Seoul 139-701,\nKorea\n* Correspondence: esk@kw.ac.kr (E.-S.K.); nykim@kw.ac.kr (N.-Y.K.)\n\nAbstract: In this study, we propose a miniaturized bandpas"
+        },
+        {
+          "rank": 3,
+          "doc_id": "p06",
+          "page": 12,
+          "chunk_id": "p06-12-66",
+          "score": 20.1484,
+          "text": "4. Conclusions\nThis paper proposes a tunable bandpass filter based on GaAs technology. The filter\nemploys a novel on-chip varactor diode structure, and source-load coupling is intr"
+        },
+        {
+          "rank": 4,
+          "doc_id": "p05",
+          "page": 1,
+          "chunk_id": "p05-1-6",
+          "score": 19.5555,
+          "text": "mission zero was located at\n4.16 GHz with restraint of 35.86 dB. Owing to the benefits from its miniaturized chip size and high\nperformance, the proposed GaAs-based IPD BPF was ver"
+        },
+        {
+          "rank": 5,
+          "doc_id": "p06",
+          "page": 1,
+          "chunk_id": "p06-1-2",
+          "score": 19.0707,
+          "text": "Abstract\nThis paper presents a miniaturized tunable bandpass filter chip fabricated using a gallium\narsenide (GaAs) technology. In the layout design, a quasi-lumped element is util"
+        }
+      ],
+      "first_rank": 2,
+      "hit@1": false,
+      "hit@3": true,
+      "hit@5": true,
+      "mrr": 0.5,
+      "page_acc@1": false,
+      "doc_acc@1": false,
+      "doc_hit@5": true,
+      "top1_doc_id": "p06",
+      "top1_page": 2,
+      "top1_score": 23.6916
+    },
+    {
+      "id": "Q24",
+      "type": "fact",
+      "module": "background",
+      "question": "What is the configuration of the 2-port symmetric spiral inductor in the modeling chapter?",
+      "expected": [
+        [
+          "p08",
+          8
+        ]
+      ],
+      "hits": [
+        {
+          "rank": 1,
+          "doc_id": "p08",
+          "page": 9,
+          "chunk_id": "p08-9-49",
+          "score": 22.4676,
+          "text": "Modeling of Spiral Inductors\n299\n\nFig. 8. Equations derived from S parameter to evaluate L and Q of 2-port and 3-port inductors.\n\n(d)\n(b)\nFig. 9. Photomicrograph of the measured sy"
+        },
+        {
+          "rank": 2,
+          "doc_id": "p08",
+          "page": 19,
+          "chunk_id": "p08-19-95",
+          "score": 20.7492,
+          "text": "3.4 Parameter extraction of 3-port symmetric inductor\nThe 5-port modeling has been presented in Sect. 3.1-3.3, and in this subsection calculation and\nparameter extraction of a 3-po"
+        },
+        {
+          "rank": 3,
+          "doc_id": "p08",
+          "page": 21,
+          "chunk_id": "p08-21-100",
+          "score": 19.5727,
+          "text": "Modeling of Spiral Inductors\n311\n\nLeft- and right-half inductances are compared, which are calculated by the following equation.\n\nFig. 22 shows the results. The ideally symmetric i"
+        },
+        {
+          "rank": 4,
+          "doc_id": "p08",
+          "page": 8,
+          "chunk_id": "p08-8-42",
+          "score": 19.3185,
+          "text": "Advanced Microwave Circuits and Systems\n298\n\nFigure 7 summarizes calculation of L and Q from 2-port and 3-port Y-parameters. The 2-\nport symmetric inductor has two types of structu"
+        },
+        {
+          "rank": 5,
+          "doc_id": "p08",
+          "page": 10,
+          "chunk_id": "p08-10-62",
+          "score": 18.7249,
+          "text": "Advanced Microwave Circuits and Systems\n300\n\nFig. 10. An equivalent circuit model for a 3-port symmetric inductor.\n\nTable 1. Extracted Model Parameters of 3-port Symmetric Inductor"
+        }
+      ],
+      "first_rank": 4,
+      "hit@1": false,
+      "hit@3": false,
+      "hit@5": true,
+      "mrr": 0.25,
+      "page_acc@1": false,
+      "doc_acc@1": true,
+      "doc_hit@5": true,
+      "top1_doc_id": "p08",
+      "top1_page": 9,
+      "top1_score": 22.4676
+    },
+    {
+      "id": "Q25",
+      "type": "cross",
+      "module": "constraint",
+      "question": "Which papers in the library address constrained Bayesian optimization, and what methods do they propose?",
+      "expected": [
+        [
+          "a07",
+          5
+        ],
+        [
+          "a08",
+          6
+        ],
+        [
+          "a09",
+          1
+        ]
+      ],
+      "hits": [
+        {
+          "rank": 1,
+          "doc_id": "a09",
+          "page": 2,
+          "chunk_id": "a09-2-10",
+          "score": 23.2024,
+          "text": "evidence from the truss design task. Consequently, there is\na notable scarcity of methods that can navigate these constrained landscapes effectively. More critically, existing\nhigh"
+        },
+        {
+          "rank": 2,
+          "doc_id": "a07",
+          "page": 1,
+          "chunk_id": "a07-1-2",
+          "score": 17.6646,
+          "text": " unconstrained settings, leaving practitioners with evolutionary strategies or heuristics.\nWe propose the scalable constrained\nBayesian optimization (SCBO) algorithm that\novercomes"
+        },
+        {
+          "rank": 3,
+          "doc_id": "a09",
+          "page": 1,
+          "chunk_id": "a09-1-3",
+          "score": 17.5598,
+          "text": "1. Introduction\n43 rd International Conference on Machine\nLearning, Seoul, South Korea. PMLR 306, 2026. Copyright 2026\nby the author(s).\n\nBayesian optimization (BO) for high-dimens"
+        },
+        {
+          "rank": 4,
+          "doc_id": "a08",
+          "page": 4,
+          "chunk_id": "a08-4-25",
+          "score": 16.6709,
+          "text": "Related Work\n adversarial networks Prykhodko\net al. [2019] for the generative process. These methods are well-summarized by a number of recent\nreview articles [Xue et al., 2019, El"
+        },
+        {
+          "rank": 5,
+          "doc_id": "a09",
+          "page": 4,
+          "chunk_id": "a09-4-34",
+          "score": 16.2766,
+          "text": "4. Proposed Algorithm\nThe LCBO method we propose is outlined in Algorithm 1.\nThis approach generalizes GIBO (M¨uller et al., 2021) to handle constrained optimization problems defin"
+        }
+      ],
+      "first_rank": 3,
+      "hit@1": false,
+      "hit@3": true,
+      "hit@5": true,
+      "mrr": 0.3333333333333333,
+      "page_acc@1": false,
+      "doc_acc@1": true,
+      "doc_hit@5": true,
+      "top1_doc_id": "a09",
+      "top1_page": 2,
+      "top1_score": 23.2024
+    },
+    {
+      "id": "Q26",
+      "type": "cross",
+      "module": "background",
+      "question": "Which two papers report GaAs-based on-chip bandpass filters?",
+      "expected": [
+        [
+          "p05",
+          1
+        ],
+        [
+          "p06",
+          2
+        ]
+      ],
+      "hits": [
+        {
+          "rank": 1,
+          "doc_id": "p05",
+          "page": 1,
+          "chunk_id": "p05-1-0",
+          "score": 17.8633,
+          "text": "Article\nDesign and Micro-Nano Fabrication of a GaAs-Based\nOn-Chip Miniaturized Bandpass Filter with Intertwined\nInductors and Circinate Capacitor using Integrated Passive\nDevice Te"
+        },
+        {
+          "rank": 2,
+          "doc_id": "p06",
+          "page": 2,
+          "chunk_id": "p06-2-8",
+          "score": 16.3213,
+          "text": "Micromachines 2026, 17, 292\n2 of 14\n\nusing IPD technologies generally exhibit fixed operating frequency bands, as tuning elements are not integrated on chip, which limits their fre"
+        },
+        {
+          "rank": 3,
+          "doc_id": "p06",
+          "page": 3,
+          "chunk_id": "p06-3-19",
+          "score": 15.7575,
+          "text": ". Compared with traditional IPD processes, the on-chip integration\nof varactor diodes in this process achieves miniaturization of the tunable filter design.\nMeanwhile, compared to "
+        },
+        {
+          "rank": 4,
+          "doc_id": "p05",
+          "page": 1,
+          "chunk_id": "p05-1-6",
+          "score": 11.6074,
+          "text": "mission zero was located at\n4.16 GHz with restraint of 35.86 dB. Owing to the benefits from its miniaturized chip size and high\nperformance, the proposed GaAs-based IPD BPF was ver"
+        },
+        {
+          "rank": 5,
+          "doc_id": "p06",
+          "page": 2,
+          "chunk_id": "p06-2-10",
+          "score": 11.3462,
+          "text": "sing the on/off states of pHEMT to\nadjust the locations where TZs are generated [15] or tune shunt-grounded resonators [16]\nto shift the filter center frequency. Furthermore, CMOS "
+        }
+      ],
+      "first_rank": 1,
+      "hit@1": true,
+      "hit@3": true,
+      "hit@5": true,
+      "mrr": 1.0,
+      "page_acc@1": true,
+      "doc_acc@1": true,
+      "doc_hit@5": true,
+      "top1_doc_id": "p05",
+      "top1_page": 1,
+      "top1_score": 17.8633
+    },
+    {
+      "id": "Q27",
+      "type": "cross",
+      "module": "gp",
+      "question": "Which papers build surrogate or emulator models for expensive experiments?",
+      "expected": [
+        [
+          "a01",
+          1
+        ],
+        [
+          "a10",
+          8
+        ],
+        [
+          "a15",
+          1
+        ]
+      ],
+      "hits": [
+        {
+          "rank": 1,
+          "doc_id": "a01",
+          "page": 1,
+          "chunk_id": "a01-1-4",
+          "score": 13.3325,
+          "text": "ty, Gaussian Process\n\n1Department of Industrial and Manufacturing Engineering, Florida State University, *cpark5@fsu.edu\n\nRunning physical experiments is often expensive in time an"
+        },
+        {
+          "rank": 2,
+          "doc_id": "a01",
+          "page": 1,
+          "chunk_id": "a01-1-2",
+          "score": 12.0228,
+          "text": "\ngrowth experiment that relates experimental conditions to the growth outcome. Once created,\nthe surrogate model can provide the prediction of the experimental outcome for a given "
+        },
+        {
+          "rank": 3,
+          "doc_id": "a15",
+          "page": 3,
+          "chunk_id": "a15-3-17",
+          "score": 11.8898,
+          "text": "2 Gaussian process emulators for computer experiments\nWe consider the model y = f(x), where the simulator response y is assumed to be a\ndeterministic real-valued function of the d-"
+        },
+        {
+          "rank": 4,
+          "doc_id": "a15",
+          "page": 1,
+          "chunk_id": "a15-1-5",
+          "score": 11.8358,
+          "text": "1 Introduction\nIn the engineering activity, runs of a computer code can be expensive and timeconsuming. One solution is to use a statistical surrogate for conditioning computer\nmod"
+        },
+        {
+          "rank": 5,
+          "doc_id": "a10",
+          "page": 3,
+          "chunk_id": "a10-3-14",
+          "score": 11.2335,
+          "text": "ble of producing waveforms for\nsystems with a mass-ratio < 2 and an eﬀective spinparameter < 0.8. In contrast to phenomenological models, the NRSur models are currently capable of "
+        }
+      ],
+      "first_rank": 1,
+      "hit@1": true,
+      "hit@3": true,
+      "hit@5": true,
+      "mrr": 1.0,
+      "page_acc@1": true,
+      "doc_acc@1": true,
+      "doc_hit@5": true,
+      "top1_doc_id": "a01",
+      "top1_page": 1,
+      "top1_score": 13.3325
+    },
+    {
+      "id": "Q28",
+      "type": "negative",
+      "module": "none",
+      "question": "What is the measured power-added efficiency of the 28 GHz GaN power amplifier described in the collected papers?",
+      "expected": [],
+      "hits": [
+        {
+          "rank": 1,
+          "doc_id": "p02",
+          "page": 2,
+          "chunk_id": "p02-2-12",
+          "score": 13.5141,
+          "text": "2. RF GaN Technology\nThis study has been carried out in an RF GaN process fabricated on a thin silicon (Si)\nsubstrate. This technology has been developed by STMicroelectronics, mai"
+        },
+        {
+          "rank": 2,
+          "doc_id": "p02",
+          "page": 2,
+          "chunk_id": "p02-2-13",
+          "score": 12.2996,
+          "text": "2. RF GaN Technology\nhile\nallowing for the fabrication of polygonal/circular spiral inductors and interleaved/stacked\ntransformers that are essential for advanced RF ICs [20–26]. T"
+        },
+        {
+          "rank": 3,
+          "doc_id": "p02",
+          "page": 2,
+          "chunk_id": "p02-2-14",
+          "score": 12.2996,
+          "text": "2. RF GaN Technology\nveloped for watt-level sub 6-GHz\npower ampliﬁers (PAs) for base station applications. The aim is to replace the traditional\nmicromodule approach based on discr"
+        },
+        {
+          "rank": 4,
+          "doc_id": "p02",
+          "page": 2,
+          "chunk_id": "p02-2-16",
+          "score": 11.8608,
+          "text": "2. RF GaN Technology\nnm Cascade summit prober [28]. LRM\ncalibration has been adopted [29,30]. A 5-step de-embedding procedure was adopted to\nremove the RLC parasitic and refer the "
+        },
+        {
+          "rank": 5,
+          "doc_id": "p02",
+          "page": 12,
+          "chunk_id": "p02-12-57",
+          "score": 11.5656,
+          "text": "5. Conclusions\nThis study proposes and compares a π-based model and an advanced model for\ncircular inductors in 0.5 µm RF GaN-on-Si technology for sub 6-GHz power applications.\nBot"
+        }
+      ],
+      "top1_doc_id": "p02",
+      "top1_page": 2,
+      "top1_score": 13.5141,
+      "refused": true
+    },
+    {
+      "id": "Q29",
+      "type": "negative",
+      "module": "none",
+      "question": "What is the battery life of the wearable ECG patch reported in these papers?",
+      "expected": [],
+      "hits": [
+        {
+          "rank": 1,
+          "doc_id": "a13",
+          "page": 14,
+          "chunk_id": "a13-14-111",
+          "score": 8.8233,
+          "text": "the empirical proportion ˆps ds of convergence over the runs and the datasets in ds. We ask the following\nquestions.\n\n1. Question: If we choose a solver s, and then “arbitrarily ch"
+        },
+        {
+          "rank": 2,
+          "doc_id": "a13",
+          "page": 20,
+          "chunk_id": "a13-20-167",
+          "score": 7.8487,
+          "text": " space and obtain a globally\nnear-optimal solution, and subsequently a local solver is employed to refine this solution.\n\nMany of these recommendations require knowledge of what co"
+        },
+        {
+          "rank": 3,
+          "doc_id": "a02",
+          "page": 6,
+          "chunk_id": "a02-6-26",
+          "score": 7.5163,
+          "text": "6\n\nhour of the day). By using additivity, we solved 24 problems with dimensionality 4\neach (i.e., 𝑑̅ = 4). Table 1 summarizes the preliminary results obtained on this benchmark stu"
+        },
+        {
+          "rank": 4,
+          "doc_id": "a13",
+          "page": 20,
+          "chunk_id": "a13-20-170",
+          "score": 7.4876,
+          "text": "beginning BO and devising sampling strategies to produce such diverse\ndatasets (e.g., [11, 53, 68]) remain critical challenges: these challenges require a deeper understanding\nof w"
+        },
+        {
+          "rank": 5,
+          "doc_id": "a01",
+          "page": 3,
+          "chunk_id": "a01-3-17",
+          "score": 6.5994,
+          "text": "imilar to what we are studying.\nIf we ﬁnd the correspondence of the existing work to the proposed model (2), it would be\n\nwhere ˜δ(·) is a Gaussian process with manipulating factor"
+        }
+      ],
+      "top1_doc_id": "a13",
+      "top1_page": 14,
+      "top1_score": 8.8233,
+      "refused": true
+    },
+    {
+      "id": "Q30",
+      "type": "negative",
+      "module": "none",
+      "question": "Which paper reports the bit error rate of a 100 Gb/s PAM-4 silicon photonic link?",
+      "expected": [],
+      "hits": [
+        {
+          "rank": 1,
+          "doc_id": "p03",
+          "page": 5,
+          "chunk_id": "p03-5-22",
+          "score": 13.6002,
+          "text": "con substrate. The etchant of 25 wt% TMAH at the\ntemperature of 70 °C is used to etch the underlying silicon substrate, and to obtain the suspended spiral\ninductor. A magnetic stir"
+        },
+        {
+          "rank": 2,
+          "doc_id": "a02",
+          "page": 2,
+          "chunk_id": "a02-2-8",
+          "score": 11.1859,
+          "text": " Architecture Search [8]\nand complex Machine Learning pipelines [9]). Many approaches have been suggested\nto mitigate the computational load of high dimensional BO, such as random "
+        },
+        {
+          "rank": 3,
+          "doc_id": "a17",
+          "page": 5,
+          "chunk_id": "a17-5-57",
+          "score": 11.1136,
+          "text": "1 Syntactic AST Match\n metric for code generation, extended here to evaluate Tcl scripts on\na 0–100 scale (Section 3.6).\n• BLEU[19]: The n-gram–based text similarity metric on whic"
+        },
+        {
+          "rank": 4,
+          "doc_id": "a12",
+          "page": 39,
+          "chunk_id": "a12-39-200",
+          "score": 10.7444,
+          "text": "ailability The data and code that support the ﬁndings of this study are available upon reasonable\nrequest.\n\nDeclarations\n\nConﬂict of interest The authors declare no competing inter"
+        },
+        {
+          "rank": 5,
+          "doc_id": "p03",
+          "page": 5,
+          "chunk_id": "p03-5-21",
+          "score": 10.7099,
+          "text": "Sensors 2011, 11\n\nThe post-process includes two steps. One removes the sacrificial oxide layer, and the other step is to\netch silicon substrate. Figure 3(b) illustrates the sacrifi"
+        }
+      ],
+      "top1_doc_id": "p03",
+      "top1_page": 5,
+      "top1_score": 13.6002,
+      "refused": true
+    }
+  ],
+  "meta": {
+    "generated_at": "2026-11-12 21:09:47",
+    "questions": "/Users/xuan/Downloads/rag store/evaluation/eval_questions.csv",
+    "kb_dir": "/Users/xuan/Downloads/rag store/detail",
+    "retriever": "BM25",
+    "k": 5,
+    "threshold": "auto"
+  }
+}
