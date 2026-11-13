@@ -11,6 +11,9 @@ __pycache__/
 .pytest_cache/
 .ruff_cache/
 
+# 日志（本地运行产物，不入库）
+logs/
+
 # 数据（保留目录占位，不入库大文件）
 data/knowledge/*
 data/simulated/*
@@ -18,8 +21,15 @@ data/incoming/*
 !data/**/.gitkeep
 data/*.db
 
+# NiceGUI 本地会话存储（浏览器 localStorage 镜像，不入库）
+.nicegui/
+
 # IDE / 系统
 .idea/
 .vscode/
 Thumbs.db
 .DS_Store
+
+# 模型二进制产物（运行时训练生成，不入库）
+*.joblib
+*.pkl
